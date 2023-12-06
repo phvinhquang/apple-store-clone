@@ -1,0 +1,37 @@
+/*Style cơ bản bảng*/
+.table {
+  width: 100%;
+  margin: 60px 0;
+}
+
+.table thead tr {
+  background-color: #f1f3f5;
+}
+
+.table tbody tr {
+  background-color: white; /*#f8f9fa*/
+}
+
+.table thead td {
+  font-size: 20px;
+  font-style: italic;
+  text-align: center;
+  padding: 5px 0;
+}
+
+.table tbody td {
+  text-align: center;
+  font-size: 18px;
+  font-style: italic;
+  color: #343a40;
+  padding: 5px 0;
+}
+
+/*Style 1 số thành phần khác*/
+.img {
+  max-width: 5vw;
+}
+
+.img img {
+  width: 100%;
+}

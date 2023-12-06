@@ -1,0 +1,18 @@
+.info-container {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.info-container h1 {
+  font-size: 40px;
+  margin: 20px 0;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.info-container p {
+  margin: 0 0 10px 0;
+  color: #868e96;
+  font-size: 18px;
+  font-style: italic;
+}

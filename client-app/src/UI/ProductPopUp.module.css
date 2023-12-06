@@ -1,0 +1,104 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.popup {
+  background-color: white;
+  position: fixed;
+  top: 20vh;
+  left: 25%;
+  width: 50%;
+  /* height: 50vh; */
+  z-index: 100;
+  overflow: hidden;
+  /* position: relative; */
+
+  display: flex;
+  /* gap: 60px; */
+  padding: 20px;
+}
+
+.img-container,
+.product-info {
+  flex: 1 1 0px;
+}
+
+.product-info {
+  padding: 0 40px;
+  font-style: italic;
+  margin-top: 30px;
+}
+
+.product-info h3,
+.product-info h4 {
+  margin: 0;
+  padding-left: 10px;
+}
+
+.product-info h3 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.product-info p {
+  color: #868e96;
+  margin-top: 0;
+  margin-bottom: 30px;
+  padding-left: 10px;
+}
+
+.product-info h4 {
+  color: #495057;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.popup i:hover {
+  cursor: pointer;
+}
+
+.product-info button {
+  padding: 10px 30px;
+  font-size: 18px;
+  font-style: italic;
+  background-color: black;
+  color: #ced4da;
+  border: none;
+}
+
+.product-info button:hover {
+  cursor: pointer;
+  background-color: #555;
+}
+
+.product-info button:active {
+  transform: scale(0.9);
+}
+
+.close {
+  font-size: 18px;
+}
+
+@media (max-width: 1400px) {
+  .popup {
+    background-color: white;
+    position: fixed;
+    top: 20vh;
+    left: 10%;
+    width: 80%;
+    /* height: 50vh; */
+    z-index: 100;
+    overflow: hidden;
+
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+  }
+}

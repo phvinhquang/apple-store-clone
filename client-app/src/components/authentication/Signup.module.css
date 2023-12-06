@@ -1,0 +1,85 @@
+.login {
+  height: 1200px;
+  background-image: url("../../images/banner1.jpg");
+  background-size: auto;
+  background-position: center;
+
+  position: relative;
+}
+
+.login h1 {
+  padding: 60px 0;
+  margin: 0;
+  text-align: center;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 40px;
+  color: #868e96;
+  letter-spacing: 2px;
+}
+
+/*Style card và input*/
+.card {
+  background-color: white;
+  width: 60%;
+  /* height: 70%; */
+  margin: auto;
+  /* border: 1px solid red; */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 10px;
+
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.form input {
+  display: block;
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  font-size: 24px;
+  border: 1px solid #ced4da;
+  /* border-top: none; */
+}
+
+/* .form input:first-child {
+  border-top: 1px solid #ced4da;
+} */
+
+.form button {
+  display: block;
+  width: 86%;
+  padding: 30px 40px;
+  font-size: 24px;
+  background-color: #343a40;
+  border: none;
+  color: white;
+
+  margin: auto;
+  margin-top: 30px;
+
+  text-align: center;
+}
+
+/*Style nút bấm*/
+.action {
+  margin: 50px 0;
+  text-align: center;
+  font-style: italic;
+  font-size: 20px;
+}
+
+.action a {
+  text-decoration: none;
+  color: #339af0;
+}
+
+/*Error*/
+.error {
+  text-align: center;
+  color: red;
+  font-size: 18px;
+  margin: 5px 0;
+}

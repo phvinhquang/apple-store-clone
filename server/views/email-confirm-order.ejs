@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        width: 800px;
+      }
+
+      .table {
+        width: 100%;
+        text-align: center;
+        /* border: 1px solid black; */
+      }
+
+      .table td {
+        border: 1px solid black;
+      }
+
+      .img-td {
+        max-width: 50px;
+      }
+
+      .img {
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Xin Chào <%= orderer.fullname %></h1>
+    <h3>Phone: <%= orderer.phone %></h3>
+    <h3>Address: <%= orderer.address %></h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <td>Tên sản phẩm</td>
+          <td>Hình ảnh</td>
+          <td>Giá</td>
+          <td>Số lượng</td>
+          <td>Thành tiền</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for (let product of products.items){ %>
+        <tr>
+          <td><%= product.name %></td>
+          <td class="img-td">
+            <img class="img" src="<%= product.img %>" />
+          </td>
+          <td><%= Number(product.price).toLocaleString('de-DE') %> VNĐ</td>
+          <td><%= product.amount %></td>
+          <td>
+            <%= Number(product.price * product.amount).toLocaleString('de-DE')
+            %> VNĐ
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+
+    <h1>Tổng thanh toán:</h1>
+    <h1><%= products.totalAmount %> VNĐ</h1>
+
+    <h1>Cảm ơn bạn !</h1>
+  </body>
+</html>

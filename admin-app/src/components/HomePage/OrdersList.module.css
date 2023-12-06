@@ -1,0 +1,63 @@
+.container {
+  margin: 30px;
+}
+
+.transactions-card {
+  margin-top: 60px;
+}
+
+.transactions-card .checkbox {
+  padding-left: 20px;
+}
+
+.checkbox input {
+  width: 18px;
+  height: 18px;
+}
+
+/*Style nút bấm*/
+.btn-new {
+  color: white;
+  font-size: 16px;
+  border: 1px solid #00b31e;
+  background-color: #00b31e;
+  padding: 8px 10px;
+  border-radius: 2px;
+}
+
+.btn-new:hover {
+  background-color: #2b8a3e;
+  color: white;
+  cursor: pointer;
+}
+
+/*Style 1 số cột*/
+.payment-column {
+  width: 6vw;
+}
+
+.status span {
+  margin-left: 10px;
+}
+
+/*Style phần status*/
+.booked {
+  background-color: #ff8787;
+  color: green;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.checkout {
+  background-color: #d0bfff;
+  color: green;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.checkin {
+  background-color: #51cf66;
+  color: blue;
+  padding: 5px;
+  border-radius: 5px;
+}

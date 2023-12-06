@@ -1,0 +1,63 @@
+.categories {
+  font-style: italic;
+  width: 250px;
+}
+
+.brand-name {
+  background-color: black;
+  color: #e9ecef;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 10px;
+  padding-left: 20px;
+}
+
+.cat-title {
+  background-color: #f1f3f5;
+  color: #212529;
+  font-size: 16px;
+  padding: 10px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.options {
+  color: #868e96;
+  padding-left: 20px;
+}
+
+.options:hover {
+  cursor: pointer;
+}
+
+.options:active {
+  color: #fab005;
+}
+
+.categories a.active {
+  font-size: 20px;
+  text-decoration: none;
+  color: #fab005;
+  /* background-color: black; */
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* .categories a:link,
+.categories a:hover,
+.categories a:visited {
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.categories a.active {
+  font-size: 20px;
+  text-decoration: none;
+  color: #fab005;
+  background-color: black;
+  font-weight: 500;
+  font-style: italic;
+} */

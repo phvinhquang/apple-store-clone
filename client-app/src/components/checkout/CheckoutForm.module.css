@@ -1,0 +1,64 @@
+.form {
+  flex: 2.1 1 0px;
+  margin-bottom: 60px;
+}
+
+.form label,
+.form input {
+  display: block;
+}
+
+.form label {
+  font-style: italic;
+  font-size: 24px;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.form input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 18px;
+  font-size: 18px;
+  margin-bottom: 30px;
+  border: 1px solid #ced4da;
+}
+
+::placeholder {
+  color: #adb5bd;
+}
+
+.form input.invalid {
+  border-color: red;
+  background-color: #f2b2b2;
+}
+
+.form input.invalid::placeholder {
+  color: #222;
+  font-style: italic;
+}
+
+.form input:focus {
+  outline: none;
+}
+
+.form button {
+  padding: 15px 30px;
+  font-size: 24px;
+  font-style: italic;
+  background-color: #212529;
+  color: #dee2e6;
+}
+
+.form button:hover {
+  cursor: pointer;
+  background-color: #555;
+  border-color: #555;
+}
+
+.error {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: red;
+}

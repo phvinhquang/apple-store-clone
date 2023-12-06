@@ -1,0 +1,58 @@
+.card {
+  flex: 1 1 0px;
+
+  background-color: #f8f9fa;
+  height: 100%;
+}
+
+/*Style nội dung trong card*/
+.container {
+  padding: 30px;
+}
+
+.flexbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: first baseline;
+  font-style: italic;
+}
+
+.flexbox h3 {
+  font-size: 24px;
+}
+
+.flexbox h4 {
+  font-weight: 400;
+  font-size: 24px;
+}
+
+/*Style chi tiết sản phẩm*/
+.flexbox-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-style: italic;
+  align-items: first baseline;
+  border-bottom: 1px solid #ced4da;
+}
+
+.flexbox-items h3,
+.flexbox-items h5 {
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.flexbox-items h3 {
+  font-size: 20px;
+  flex: 1 1 0px;
+  font-weight: 500;
+}
+
+.flexbox-items h5 {
+  flex: 1 1 0px;
+  text-align: right;
+  color: #868e96;
+  font-weight: 500;
+  font-size: 16px;
+}

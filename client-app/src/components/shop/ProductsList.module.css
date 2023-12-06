@@ -1,0 +1,113 @@
+.search-filter {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-filter input {
+  width: 30%;
+  padding: 10px 20px;
+  border: 1px solid #ced4da;
+}
+
+.search-filter input:focus {
+  outline: #ced4da;
+}
+
+.products-list {
+  flex: 1 0 0px;
+}
+
+/*style products list*/
+.grid {
+  margin-top: 20px;
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.products-list img {
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+
+.products-list img:hover {
+  opacity: 0.6;
+  -webkit-filter: blur(0.1px);
+  filter: blur(0.1px);
+  transition: 0.5s;
+}
+
+/*Style product*/
+/*animation product fade in*/
+.product {
+  animation: fadein 0.5s;
+}
+
+.product h3,
+.product h4 {
+  margin: 0;
+  text-align: center;
+  font-style: italic;
+}
+
+.product h3 {
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.product h4 {
+  color: #adb5bd;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.product a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/*Style nút chuyển trang*/
+.nav {
+  text-align: right;
+  font-style: italic;
+}
+
+.page-nav {
+  list-style: none;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.nav i {
+  background-color: white;
+  border: 1px solid #adb5bd;
+  padding: 12px;
+}
+
+.nav a {
+  text-decoration: none;
+  background-color: #212529;
+  padding: 10px 17px;
+  /* border: 1px solid #212529; */
+  color: white;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  /* 25% {
+    opacity: 0.25;
+    transform: scale(0.4);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.6);
+  } */
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

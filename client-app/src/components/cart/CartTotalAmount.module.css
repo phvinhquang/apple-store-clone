@@ -1,0 +1,97 @@
+.card {
+  flex: 1 1 0px;
+
+  background-color: #f8f9fa;
+  height: 100%;
+}
+
+/*Style nội dung trong card*/
+.container {
+  padding: 30px;
+}
+
+.container h1 {
+  margin: 0;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/*Style phần hiển thị tổng tiền*/
+.total-flexbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-style: italic;
+}
+
+.total-flexbox h3,
+.total-flexbox h4,
+.total-flexbox h5 {
+  margin-bottom: 15px;
+}
+
+.total-flexbox h3 {
+  font-size: 24px;
+}
+
+.total-flexbox h4 {
+  font-size: 20px;
+  font-weight: 400;
+  color: #343a40;
+}
+
+.total-flexbox h5 {
+  font-size: 16px;
+  color: #868e96;
+  font-weight: 400;
+}
+
+.subtotal {
+  margin-bottom: 0px;
+  border-bottom: 1px solid #868e96;
+}
+
+/*Style phần coupon*/
+
+.coupon {
+  margin-top: 30px;
+}
+
+.coupon input,
+.coupon input:focus {
+  box-sizing: border-box;
+  padding: 15px;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+  border: 1px solid #adb5bd;
+}
+
+.coupon input:focus {
+  outline: none;
+}
+
+.coupon button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+
+  background-color: #212529;
+  border: 1px solid #212529;
+  color: #f8f9fa;
+  font-size: 16px;
+}
+
+.coupon button:hover {
+  cursor: pointer;
+  background-color: #495057;
+  /* border: 1px solid black; */
+}
+
+.coupon button:active {
+  border: 2px solid black;
+}
+
+.coupon i {
+  margin-right: 10px;
+}

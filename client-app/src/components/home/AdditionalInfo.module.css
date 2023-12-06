@@ -1,0 +1,74 @@
+/*Style phần service*/
+.service {
+  height: 10rem;
+  background-color: #f8f9fa;
+  margin-top: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.service-item {
+  flex-grow: 1;
+  text-align: center;
+  font-style: italic;
+}
+
+.service-item h1 {
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 30px;
+}
+
+.service-item h3 {
+  color: #adb5bd;
+  margin: 0;
+  font-size: 20px;
+}
+
+/*Style phần subscribe*/
+.subscribe {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 40px 0 80px 0;
+}
+
+.subscribe h1,
+.subscribe h3 {
+  font-style: italic;
+  margin: 0;
+}
+
+.subscribe h1 {
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.subscribe h3 {
+  color: #adb5bd;
+}
+
+.subs-input input,
+.subs-input button {
+  box-sizing: border-box;
+  height: 70px;
+}
+
+.subs-input input {
+  width: 450px;
+  border: 1px solid #e9ecef;
+}
+
+.subs-input input::placeholder {
+  padding-left: 20px;
+  font-size: 18px;
+}
+
+.subs-input button {
+  width: 150px;
+  border: none;
+  background-color: #343a40;
+  color: white;
+  font-size: 18px;
+}

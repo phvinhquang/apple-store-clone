@@ -1,0 +1,41 @@
+footer {
+  background-color: black;
+  margin: auto;
+  width: 100%;
+}
+
+.footer-container {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  gap: 100px;
+}
+
+/*Style các cột của footer*/
+.column {
+  color: white;
+  font-style: italic;
+}
+
+.column ul {
+  list-style-type: none;
+}
+
+.column li {
+  margin-bottom: 5px;
+}
+
+h3 {
+  font-weight: 400;
+  margin-bottom: 30px;
+}
+
+.column a:link,
+.column a:hover,
+.column a:active,
+.column a:visited {
+  text-decoration: none;
+  color: #dee2e6;
+  font-weight: 300;
+}

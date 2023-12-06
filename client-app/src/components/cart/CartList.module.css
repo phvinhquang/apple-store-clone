@@ -1,0 +1,103 @@
+.cartlist {
+  flex: 2.5 1 0px;
+}
+
+.titles {
+  background-color: #f1f3f5;
+  font-style: italic;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 30px;
+  align-items: center;
+  justify-items: center;
+}
+
+.product {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 30px;
+
+  align-items: center;
+  justify-items: center;
+  font-style: italic;
+}
+
+.product img {
+  display: block;
+  width: 70%;
+  margin: auto;
+}
+
+.name {
+  font-size: 20px;
+}
+
+.price {
+  text-align: center;
+  color: #868e96;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.product i:hover {
+  cursor: pointer;
+}
+
+.product button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+}
+
+.product button:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.product button:active {
+  cursor: pointer;
+  transform: scale(1);
+  color: red;
+}
+
+/*Style phần chọn số lượng*/
+.product .number {
+  color: black;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.number span {
+  margin-bottom: 3px;
+}
+
+/*Style phần đi đến check out*/
+
+.other-actions {
+  margin-top: 20px;
+  height: 90px;
+  background-color: #f1f3f5;
+  color: #868e96;
+  font-size: 20px;
+  font-style: italic;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.other-actions a {
+  margin: 0 20px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.other-actions a:hover {
+  padding: 10px 20px;
+  border: 2px solid black;
+}
+
+.other-actions i {
+  margin: 0 10px;
+}
