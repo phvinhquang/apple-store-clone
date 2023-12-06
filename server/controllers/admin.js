@@ -20,7 +20,6 @@ exports.postLogin = async (req, res, next) => {
   try {
     // Kiểm tra user có tồn tại không và role của user
     const user = await User.findOne({ email: email });
-    console.log(user);
     if (!user || user.role !== "admin") {
       const error = new Error(
         "Thông tin đăng nhập không chính xác. Vui lòng thử lại"
@@ -66,12 +65,6 @@ exports.getProducts = async (req, res, next) => {
 
   //Check auth
   try {
-    if (!req.session.isLoggedIn) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     if (query.length === 0) {
       const products = await Product.find().limit(10);
       return res.status(200).json(products);
@@ -94,12 +87,6 @@ exports.getOrders = async (req, res, next) => {
   const perPage = req.query.perPage || 10;
 
   try {
-    if (!req.session.isLoggedIn) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     const ordersCount = await Order.countDocuments();
     const totalPages = Math.ceil(ordersCount / perPage);
 
@@ -132,12 +119,6 @@ exports.getOverall = async (req, res, next) => {
   const today = new Date().toDateString();
 
   try {
-    if (!req.session.isLoggedIn) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     // Tính tổng số người dùng
     const userCounts = await User.countDocuments();
 
@@ -159,6 +140,7 @@ exports.getOverall = async (req, res, next) => {
       new_orders: todayOrders.length,
     });
   } catch (err) {
+    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -170,12 +152,6 @@ exports.getProductDetail = async (req, res, next) => {
   const productId = req.params.productId;
 
   try {
-    if (!req.session.isLoggedIn) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     const product = await Product.findById(productId);
     if (!product) {
       const error = new Error("Could not find product");
@@ -226,7 +202,7 @@ exports.postAddProduct = async (req, res, next) => {
     // console.log("image Url", imageUrl[1]);
     // console.log(name, category, price, short_desc, long_desc);
 
-    console.log("stock", stock);
+    // console.log("stock", stock);
 
     const product = new Product({
       name: name,
@@ -297,7 +273,7 @@ exports.postEditProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
   const productId = req.params.productId;
-  console.log(productId);
+  // console.log(productId);
 
   try {
     if (req.user.role !== "admin") {

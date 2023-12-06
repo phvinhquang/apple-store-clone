@@ -16,19 +16,6 @@ const RootLayout = function () {
   const url = serverUrl;
   const token = getToken();
 
-  // const token = tokenLoader();
-  // const email = emailLoader();
-
-  // useEffect(() => {
-  //   if (token) {
-  //     dispath(authActions.logIn({ token: token, email: email }));
-  //   }
-
-  //   if (!token) {
-  //     navigate("/login");
-  //   }
-  // }, [token, email]);
-
   // Lấy email của active user bằng API
   const getUserProfile = useCallback(
     async function () {
@@ -40,14 +27,14 @@ const RootLayout = function () {
         });
         const data = await res.json();
 
-        if (res.status === 401) {
+        if (res.status === 401 || res.status === 555) {
           navigate("/login");
         }
 
         if (res.status === 200) {
           dispatch(
             authActions.logIn({
-              email: data.userData.email,
+              email: data.user.email,
             })
           );
         }

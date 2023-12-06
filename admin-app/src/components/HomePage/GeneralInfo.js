@@ -1,19 +1,22 @@
 import classes from "./GerneralInfo.module.css";
 import Card from "../../UI/Card";
 import { useEffect, useState } from "react";
+import { serverUrl } from "../../utils/auth";
+import { getToken } from "../../utils/auth";
 
 const GerneralInfo = function () {
   const [generalInfo, setGeneralInfo] = useState([]);
+  const url = serverUrl;
+  const token = getToken();
 
   //Hàm fetch thông tin chung
   const fetchGeneralInfo = async function () {
     try {
-      const res = await fetch(
-        `https://app-store-server-242ec2432e8c.herokuapp.com/admin/overall`,
-        {
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${url}admin/overall`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
 
       const data = await res.json();
       setGeneralInfo(data);

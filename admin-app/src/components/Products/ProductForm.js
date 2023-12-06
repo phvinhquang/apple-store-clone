@@ -3,6 +3,8 @@ import Card from "../../UI/Card";
 import useInput from "../../hooks/use-input";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { serverUrl } from "../../utils/auth";
+import { getToken } from "../../utils/auth";
 
 const ProductForm = function () {
   // const navigate = useNavigate();
@@ -15,6 +17,9 @@ const ProductForm = function () {
   const [isLoading, setIsLoaing] = useState(false);
   const [httpError, setHtppError] = useState(null);
   const [successNoti, setSucessNoti] = useState(false);
+
+  const url = serverUrl;
+  const token = getToken();
 
   //Hàm check input rỗng
   const isEmpty = function (value) {
@@ -102,16 +107,18 @@ const ProductForm = function () {
     setSucessNoti(false);
 
     //Set url theo trạng thái edit hoặc tạo mới
-    let url = `https://app-store-server-242ec2432e8c.herokuapp.com/admin/new-product`;
+    let url = `${url}admin/new-product`;
     if (isEdit) {
-      url = `https://app-store-server-242ec2432e8c.herokuapp.com/admin/edit-product/${productId}`;
+      url = `${url}admin/edit-product/${productId}`;
     }
 
     try {
       const req = await fetch(url, {
         method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
         body: requestData,
-        credentials: "include",
       });
 
       const data = await req.json();
@@ -174,12 +181,11 @@ const ProductForm = function () {
   // FETCH PRODUCT DETAIL ĐỂ EDIT
   const fetchProductDetail = useCallback(async function () {
     try {
-      const res = await fetch(
-        `https://app-store-server-242ec2432e8c.herokuapp.com/admin/product-detail/${productId}`,
-        {
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${url}admin/product-detail/${productId}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
 
       const data = await res.json();
 

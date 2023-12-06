@@ -2,22 +2,25 @@ import classes from "./OrdersList.module.css";
 
 import { useEffect, useState, useCallback } from "react";
 import { format } from "date-fns";
+import { serverUrl } from "../../utils/auth";
+import { getToken } from "../../utils/auth";
 
 import Card from "../../UI/Card";
 import Table from "../../UI/Table";
 
 const OrdersList = function ({ resultsPerPage, title }) {
   const [orders, setOrders] = useState([]);
+  const url = serverUrl;
+  const token = getToken();
 
   // Hàm fetch transaction của người dùng
   const fetchOrders = useCallback(async function () {
     try {
-      const res = await fetch(
-        "https://app-store-server-242ec2432e8c.herokuapp.com/admin/orders",
-        {
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${url}admin/orders`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
       const data = await res.json();
 
       setOrders(data.result);

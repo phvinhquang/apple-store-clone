@@ -99,7 +99,6 @@ exports.getUserProfile = async (req, res, next) => {
 
   try {
     const user = await User.findById(req.userId);
-    console.log(user);
 
     const userData = {
       email: user.email,

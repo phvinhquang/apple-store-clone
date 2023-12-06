@@ -3,21 +3,19 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store";
 import { useNavigate } from "react-router-dom";
+import { serverUrl } from "../../utils/auth";
 
 const MainNavigation = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const email = useSelector((state) => state.email);
+  const url = serverUrl;
 
   // Gửi request logout
   const logoutRequest = async function () {
-    const res = await fetch(
-      "https://app-store-server-242ec2432e8c.herokuapp.com/logout",
-      {
-        method: "POST",
-        credentials: "include",
-      }
-    );
+    const res = await fetch(`${url}logout`, {
+      method: "POST",
+    });
     const data = res.json();
 
     if (res.status === 201) {

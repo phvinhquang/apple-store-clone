@@ -111,7 +111,6 @@ exports.getCart = async (req, res, next) => {
 
     res.status(200).json(updatedCart);
   } catch (err) {
-    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -228,7 +227,6 @@ exports.postAddOrder = async (req, res, next) => {
       html: emailToSend,
     });
   } catch (err) {
-    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }
