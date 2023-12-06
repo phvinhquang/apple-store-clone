@@ -30,10 +30,9 @@ const fileFilter = (req, file, callback) => {
   }
 };
 
-// BỎ
 // Store lưu session
 const store = new MongoDBStore({
-  uri: `mongodb+srv://jeremy:Cfc1031905@funix-njs301-mongodb.1vi2stm.mongodb.net/njs-asm3?retryWrites=true&w=majority`,
+  uri: `mongodb+srv://jeremy...`,
   collection: "sessions",
   autoRemove: "native",
 });
@@ -45,16 +44,11 @@ const adminRoutes = require("./routes/admin");
 
 const app = express();
 
-//BỎ
 // trust proxy dùng khi deploy, dev thì không dùng
 // app.set("trust proxy", 1);
 app.use(
   cors({
-    origin: [
-      // "https://apple-store-client.firebaseapp.com",
-      // "https://apple-store-admin.firebaseapp.com",
-      "http://localhost:3000",
-    ],
+    origin: ["http://localhost:3000"],
     methods: ["POST", "PUT", "GET", "OPTIONS", "DELETE", "HEAD"],
     credentials: true,
   })
@@ -69,7 +63,6 @@ app.use(
 );
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-// BỎ
 app.use(
   session({
     secret: "session secret string",
@@ -103,7 +96,6 @@ app.use((req, res, next) => {
     })
     .catch((err) => console.log(err));
 });
-// BỎ ĐẾN ĐÂY
 
 app.use(authRoutes);
 app.use("/products", shopRoutes);
@@ -119,9 +111,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(
-    "mongodb+srv://jeremy:Cfc1031905@funix-njs301-mongodb.1vi2stm.mongodb.net/njs-asm3?retryWrites=true&w=majority"
-  )
+  .connect("")
   .then(() => {
     app.listen(5000);
   })
