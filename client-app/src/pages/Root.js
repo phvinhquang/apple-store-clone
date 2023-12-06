@@ -8,6 +8,9 @@ import LiveChatIcon from "../components/livechat/LiveChatIcon";
 import ChatPopUp from "../components/livechat/ChatPopUp";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCart, fetchCart } from "../store/cart-actions-creator";
+import { getToken } from "../util/token";
+import { getTokenDuration } from "../util/token";
+import { authActions } from "../store/auth";
 
 let isFirstTime = true;
 
@@ -19,6 +22,27 @@ function RootLayout() {
   // useEffect(() => {
   //   dispatch(fetchCart());
   // }, [dispatch, cart.changed]);
+
+  useEffect(() => {
+    const token = getToken();
+    const tokenDuration = getTokenDuration();
+
+    if (!token) {
+      return;
+    }
+
+    if (tokenDuration < 0) {
+      dispatch(authActions.logOut());
+    }
+
+    const timer = setTimeout(() => {
+      dispatch(authActions.logOut());
+    }, tokenDuration);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  });
 
   useEffect(() => {
     if (isFirstTime) {

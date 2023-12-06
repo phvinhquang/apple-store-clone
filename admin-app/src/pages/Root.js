@@ -6,10 +6,16 @@ import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
+import { serverUrl } from "../utils/auth";
+import { getToken } from "../utils/auth";
 
 const RootLayout = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const url = serverUrl;
+  const token = getToken();
+
   // const token = tokenLoader();
   // const email = emailLoader();
 
@@ -26,20 +32,27 @@ const RootLayout = function () {
   // Lấy email của active user bằng API
   const getUserProfile = useCallback(
     async function () {
-      const res = await fetch(
-        "https://app-store-server-242ec2432e8c.herokuapp.com/user-profile",
-        {
-          credentials: "include",
+      try {
+        const res = await fetch(`${url}user-profile`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        const data = await res.json();
+
+        if (res.status === 401) {
+          navigate("/login");
         }
-      );
-      const data = await res.json();
 
-      if (res.status === 401) {
-        navigate("/login");
-      }
-
-      if (res.status === 200) {
-        dispatch(authActions.logIn({ email: data.user.email }));
+        if (res.status === 200) {
+          dispatch(
+            authActions.logIn({
+              email: data.userData.email,
+            })
+          );
+        }
+      } catch (err) {
+        console.log(err);
       }
     },
     [dispatch, navigate]

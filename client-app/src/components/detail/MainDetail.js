@@ -104,7 +104,7 @@ const MainDetail = function ({ product }) {
               <button disabled={product.stock === 0} onClick={addToCartHandler}>
                 Add to cart
               </button>
-              {addingToCart && (
+              {!addingToCart && (
                 <div className={classes["add-to-cart"]}>
                   Đã thêm vào giỏ hàng
                 </div>

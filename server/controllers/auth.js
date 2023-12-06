@@ -1,7 +1,9 @@
+require("dotenv").config();
+
 const User = require("../models/user");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 exports.postSignup = async (req, res, next) => {
   const errors = validationResult(req);
@@ -64,17 +66,21 @@ exports.postLogin = async (req, res, next) => {
       error.statusCode = 401;
       throw error;
     } else if (correctPassword) {
-      req.session.isLoggedIn = true;
-      req.session.user = user;
+      // TẠO TOKEN
+      const token = jwt.sign(
+        { userId: user._id.toString() },
+        process.env.ACCESS_TOKEN,
+        { expiresIn: "2d" }
+      );
 
       // Đưa 1 số thông tin của user xuống client
       const userData = {
-        email: req.session.user.email,
-        fullname: req.session.user.fullname,
-        phone: req.session.user.phone,
+        email: user.email,
+        fullname: user.fullname,
+        phone: user.phone,
       };
 
-      res.status(200).json({ message: "Đăng nhập thành công", user: userData });
+      res.status(200).json({ token: token, userData: userData });
     }
   } catch (err) {
     if (!err.statusCode) {
@@ -84,24 +90,32 @@ exports.postLogin = async (req, res, next) => {
   }
 };
 
-exports.getUserProfile = (req, res, next) => {
-  if (!req.session.isLoggedIn) {
-    const error = new Error("Unauthorized");
-    error.statusCode = 401;
-    throw error;
+exports.getUserProfile = async (req, res, next) => {
+  // if (!req.session.isLoggedIn) {
+  //   const error = new Error("Unauthorized");
+  //   error.statusCode = 401;
+  //   throw error;
+  // }
+
+  try {
+    const user = await User.findById(req.userId);
+    console.log(user);
+
+    const userData = {
+      email: user.email,
+      fullname: user.fullname,
+      phone: user.phone,
+    };
+
+    res.status(200).json({ message: "Done", user: userData });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
-
-  const userData = {
-    email: req.session.user.email,
-    fullname: req.session.user.fullname,
-    phone: req.session.user.phone,
-  };
-
-  res.status(200).json({ message: "Done", user: userData });
 };
 
 exports.postLogout = (req, res, next) => {
-  req.session.destroy(() => {
-    res.status(201).json("Logged Out !!!");
-  });
+  res.status(201).json("Logged Out !!!");
 };

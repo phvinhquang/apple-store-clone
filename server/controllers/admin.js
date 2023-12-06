@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Order = require("../models/order");
 const bcrypt = require("bcryptjs");
 const fs = require("fs");
+const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 
 // Hàm xóa ảnh trên server
@@ -19,6 +20,7 @@ exports.postLogin = async (req, res, next) => {
   try {
     // Kiểm tra user có tồn tại không và role của user
     const user = await User.findOne({ email: email });
+    console.log(user);
     if (!user || user.role !== "admin") {
       const error = new Error(
         "Thông tin đăng nhập không chính xác. Vui lòng thử lại"
@@ -36,17 +38,20 @@ exports.postLogin = async (req, res, next) => {
       error.statusCode = 401;
       throw error;
     } else if (correctPassword) {
-      req.session.isLoggedIn = true;
-      req.session.user = user;
+      const token = jwt.sign(
+        { userId: user._id.toString() },
+        process.env.ACCESS_TOKEN,
+        { expiresIn: "2d" }
+      );
 
       // Đưa 1 số thông tin của user xuống client
       const userData = {
-        email: req.session.user.email,
-        fullname: req.session.user.fullname,
-        phone: req.session.user.phone,
+        email: user.email,
+        fullname: user.fullname,
+        phone: user.phone,
       };
 
-      res.status(200).json({ message: "Đăng nhập thành công", user: userData });
+      res.status(200).json({ token: token, userData: userData });
     }
   } catch (err) {
     if (!err.statusCode) {

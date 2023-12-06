@@ -22,11 +22,8 @@ function HomePage() {
 export default HomePage;
 
 export const loader = async function () {
-  const res = await fetch("http://localhost:5000/products/homepage", {
-    credentials: "include",
-  });
+  const res = await fetch("http://localhost:5000/products/homepage");
 
   const data = await res.json();
-  console.log(data);
   return data;
 };

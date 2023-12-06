@@ -238,7 +238,7 @@ exports.postAddOrder = async (req, res, next) => {
 
 exports.getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({ userId: req.user._id }).sort({
+    const orders = await Order.find({ userId: req.userId }).sort({
       createdAt: -1,
     });
 
@@ -261,7 +261,7 @@ exports.getOrderDetail = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    if (order.userId.toString() !== req.user._id.toString()) {
+    if (order.userId.toString() !== req.userId.toString()) {
       const error = new Error("Forbidden");
       error.statusCode = 403;
       throw error;

@@ -14,6 +14,8 @@ const authSlice = createSlice({
     logOut(state) {
       state.isAuthenticated = false;
       state.user = "";
+      localStorage.removeItem("token");
+      localStorage.removeItem("tokenExpiryDate");
     },
   },
 });
