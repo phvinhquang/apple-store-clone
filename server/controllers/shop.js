@@ -89,7 +89,7 @@ exports.getProductDetail = async (req, res, next) => {
 
 exports.getCart = async (req, res, next) => {
   try {
-    const user = await User.findById({ _id: req.user._id });
+    const user = await User.findById({ _id: req.userId });
     if (!user) {
       const error = new Error("Unauthorized !");
       err.statusCode = 401;
@@ -125,7 +125,8 @@ exports.postAddToCart = async (req, res, next) => {
   const updatedCart = { items: items, totalAmount: totalAmount };
 
   try {
-    const user = req.user;
+    const user = await User.findById({ _id: req.userId });
+
     if (!user) {
       const error = new Error("Unauthorized !");
       err.statusCode = 401;

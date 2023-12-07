@@ -11,7 +11,7 @@ router.get("/all", shopController.getAllProducts);
 
 router.get("/cart", isAuth, shopController.getCart);
 
-router.post("/add-to-cart", shopController.postAddToCart);
+router.post("/add-to-cart", isAuth, shopController.postAddToCart);
 
 router.post(
   "/add-order",

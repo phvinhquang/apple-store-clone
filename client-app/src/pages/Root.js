@@ -19,10 +19,7 @@ function RootLayout() {
   const isShown = useSelector((state) => state.customerChat.isShown);
   const cart = useSelector((state) => state.cart);
 
-  // useEffect(() => {
-  //   dispatch(fetchCart());
-  // }, [dispatch, cart.changed]);
-
+  // Auto logout khi token hết hạn
   useEffect(() => {
     const token = getToken();
     const tokenDuration = getTokenDuration();
@@ -44,6 +41,7 @@ function RootLayout() {
     };
   });
 
+  // Cập nhật cart ở database
   useEffect(() => {
     if (isFirstTime) {
       isFirstTime = false;

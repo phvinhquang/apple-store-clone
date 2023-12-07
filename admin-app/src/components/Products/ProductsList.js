@@ -5,6 +5,8 @@ import { serverUrl } from "../../utils/auth";
 import { getToken } from "../../utils/auth";
 import Table from "../../UI/Table";
 
+let firstTime = true;
+
 const ProductsList = function () {
   const [products, setProducts] = useState([]);
   const [query, setQuery] = useState("");
@@ -24,6 +26,7 @@ const ProductsList = function () {
   const fetchProducts = useCallback(
     async function () {
       setIsLoading(true);
+
       try {
         const res = await fetch(`${url}admin/products?query=${query}`, {
           headers: {
@@ -42,6 +45,10 @@ const ProductsList = function () {
   );
 
   // Thực hiện fetch product
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   useEffect(() => {
     // Fetch data 2s sau khi người dùng ngừng nhập search
     const timer = setTimeout(() => {

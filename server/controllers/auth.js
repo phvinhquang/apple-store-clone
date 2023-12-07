@@ -91,12 +91,6 @@ exports.postLogin = async (req, res, next) => {
 };
 
 exports.getUserProfile = async (req, res, next) => {
-  // if (!req.session.isLoggedIn) {
-  //   const error = new Error("Unauthorized");
-  //   error.statusCode = 401;
-  //   throw error;
-  // }
-
   try {
     const user = await User.findById(req.userId);
 

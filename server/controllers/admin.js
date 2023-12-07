@@ -170,12 +170,6 @@ exports.getProductDetail = async (req, res, next) => {
 
 exports.postAddProduct = async (req, res, next) => {
   try {
-    if (!req.session.isLoggedIn || !req.user.role === "admin") {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = new Error("Validation failed");
@@ -185,6 +179,7 @@ exports.postAddProduct = async (req, res, next) => {
     }
 
     if (req.files.length === 0 || req.files.length < 4) {
+      console.log(req.files);
       const error = new Error("Không đủ ảnh");
       error.statusCode = 422;
       throw error;
@@ -242,12 +237,6 @@ exports.postEditProduct = async (req, res, next) => {
   const long_desc = req.body.long_desc;
 
   try {
-    if (!req.session.isLoggedIn || !req.user.role === "admin") {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     const product = await Product.findById(productId);
     if (!product) {
       const error = new Error("Không tìm thấy sản phẩm");
@@ -276,7 +265,10 @@ exports.deleteProduct = async (req, res, next) => {
   // console.log(productId);
 
   try {
-    if (req.user.role !== "admin") {
+    const user = await User.findOne({ _id: req.userId });
+    console.log(user);
+
+    if (user.role !== "admin") {
       const error = new Error("Not authorized");
       error.statusCode = 403;
       throw error;

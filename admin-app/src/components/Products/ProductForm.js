@@ -107,13 +107,13 @@ const ProductForm = function () {
     setSucessNoti(false);
 
     //Set url theo trạng thái edit hoặc tạo mới
-    let url = `${url}admin/new-product`;
+    let requestUrl = `${url}admin/new-product`;
     if (isEdit) {
-      url = `${url}admin/edit-product/${productId}`;
+      requestUrl = `${url}admin/edit-product/${productId}`;
     }
 
     try {
-      const req = await fetch(url, {
+      const req = await fetch(requestUrl, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,

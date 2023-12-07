@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./CheckoutForm.module.css";
 import useInput from "../../hooks/use-input";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { cartActions } from "../../store/cart";
+import { getToken } from "../../util/token";
 
 const CheckoutForm = function () {
   const [formError, setFormError] = useState(null);
@@ -12,6 +13,7 @@ const CheckoutForm = function () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const token = getToken();
 
   //Hàm kiểm tra input empty
   function isNotEmpty(value) {
@@ -56,6 +58,7 @@ const CheckoutForm = function () {
     hasError: fullNameHasError,
     valueChangeHandler: fullNameChangeHandler,
     inputBlurHandler: fullNameBlurHandler,
+    setEnteredValue: setFullNameValue,
     reset: resetFullName,
   } = useInput(isNotEmpty);
 
@@ -66,6 +69,7 @@ const CheckoutForm = function () {
     hasError: emailHasError,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
+    setEnteredValue: setEmailValue,
     reset: resetEmail,
   } = useInput(checkEmail);
 
@@ -76,6 +80,7 @@ const CheckoutForm = function () {
     hasError: phoneNumberHasError,
     valueChangeHandler: phoneNumberChangeHandler,
     inputBlurHandler: phoneNumberBlurHandler,
+    setEnteredValue: setPhoneNumberValue,
     reset: resetPhoneNumber,
   } = useInput(checkPhoneNumberLength);
 
@@ -86,6 +91,7 @@ const CheckoutForm = function () {
     hasError: addressHasError,
     valueChangeHandler: addressChangeHandler,
     inputBlurHandler: addressBlurHandler,
+    setEnteredValue: setAddressValue,
     reset: resetAddress,
   } = useInput(isNotEmpty);
 
@@ -99,6 +105,25 @@ const CheckoutForm = function () {
     formIsValid = true;
   }
 
+  // Hàm gửi request auto fill thông tin khách
+  const userInfoRequest = async function () {
+    try {
+      const request = await fetch("http://localhost:5000/user-profile", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      const data = await request.json();
+      console.log(data);
+      if (request.status === 200) {
+        setFullNameValue(data.user.fullname);
+        setEmailValue(data.user.email);
+        setPhoneNumberValue(data.user.phone);
+      }
+    } catch (err) {}
+  };
+
+  // Hàm gửi request tạo order
   const addOrderRequest = async function (orderData) {
     setIsLoading(true);
 
@@ -107,9 +132,9 @@ const CheckoutForm = function () {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
         body: JSON.stringify(orderData),
-        credentials: "include",
       });
 
       const data = await request.json();
@@ -132,6 +157,12 @@ const CheckoutForm = function () {
     setIsLoading(false);
   };
 
+  // Fetch thông tin khách hàng để auto fill
+  useEffect(() => {
+    userInfoRequest();
+  }, []);
+
+  // Xử lý sự kiện submit order
   const submitOrderHandler = function () {
     if (!formIsValid) {
       // Hiện và ẩn thông báo sau 3s

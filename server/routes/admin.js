@@ -1,5 +1,6 @@
 const express = require("express");
 const { body } = require("express-validator");
+const isAuth = require("../middleware/is-auth");
 
 const router = express.Router();
 
@@ -7,9 +8,9 @@ const adminController = require("../controllers/admin");
 
 router.post("/login", adminController.postLogin);
 
-router.get("/products", adminController.getProducts);
+router.get("/products", isAuth, adminController.getProducts);
 
-router.get("/orders", adminController.getOrders);
+router.get("/orders", isAuth, adminController.getOrders);
 
 router.post(
   "/new-product",
@@ -27,6 +28,7 @@ router.post(
     body("short_desc", "Mô tả ngắn không được để trống").trim().not().isEmpty(),
     body("long_desc", "Mô tả dài không được để trống").trim().not().isEmpty(),
   ],
+  isAuth,
   adminController.postAddProduct
 );
 
@@ -46,13 +48,22 @@ router.post(
     body("short_desc", "Mô tả ngắn không được để trống").trim().not().isEmpty(),
     body("long_desc", "Mô tả dài không được để trống").trim().not().isEmpty(),
   ],
+  isAuth,
   adminController.postEditProduct
 );
 
-router.delete("/delete-product/:productId", adminController.deleteProduct);
+router.delete(
+  "/delete-product/:productId",
+  isAuth,
+  adminController.deleteProduct
+);
 
-router.get("/overall", adminController.getOverall);
+router.get("/overall", isAuth, adminController.getOverall);
 
-router.get("/product-detail/:productId", adminController.getProductDetail);
+router.get(
+  "/product-detail/:productId",
+  isAuth,
+  adminController.getProductDetail
+);
 
 module.exports = router;
