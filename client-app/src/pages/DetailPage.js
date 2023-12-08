@@ -28,7 +28,8 @@ export default DetailPage;
 
 export const loader = async function ({ params }) {
   const res = await fetch(
-    "http://localhost:5000/products/product-detail/" + params.productId
+    "https://apple-store-server-0biu.onrender.com/products/product-detail/" +
+      params.productId
   );
 
   const data = await res.json();

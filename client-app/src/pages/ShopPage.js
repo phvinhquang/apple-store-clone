@@ -17,7 +17,9 @@ function ShopPage() {
 export default ShopPage;
 
 export const loader = async function () {
-  const res = await fetch("http://localhost:5000/products/all");
+  const res = await fetch(
+    "https://apple-store-server-0biu.onrender.com/products/all"
+  );
 
   const data = await res.json();
   return data;
