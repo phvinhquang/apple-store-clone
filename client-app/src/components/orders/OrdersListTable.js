@@ -2,24 +2,25 @@ import React, { useState, useEffect, useCallback } from "react";
 import classes from "./OrdersListTable.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getToken } from "../../util/token";
 
 const OrdersListTable = function () {
   const [isLoading, setIsLoading] = useState(false);
   const [httpEror, setHttpError] = useState(null);
   const [orders, setOrders] = useState(null);
 
+  const token = getToken();
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
 
   // Hàm fetch order data
   const fetchOrders = useCallback(async function () {
     setIsLoading(true);
     try {
-      const res = await fetch(
-        "http://localhost:5000/products/orders",
-        {
-          credentials: "include",
-        }
-      );
+      const res = await fetch("http://localhost:5000/products/orders", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
       const data = await res.json();
 
       // Check lỗi

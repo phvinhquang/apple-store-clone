@@ -1,4 +1,5 @@
 import { cartActions } from "./cart";
+import { getToken } from "../util/token";
 
 export function updateCart(cart) {
   return async function (dispatch) {
@@ -7,9 +8,9 @@ export function updateCart(cart) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: "Bearer " + getToken(),
         },
         body: JSON.stringify(cart),
-        credentials: "include",
       });
 
       if (!res.ok) {
@@ -32,7 +33,9 @@ export function fetchCart() {
   return async function (dispatch) {
     const fetchCartData = async function () {
       const res = await fetch("http://localhost:5000/products/cart", {
-        credentials: "include",
+        headers: {
+          Authorization: "Bearer " + getToken(),
+        },
       });
       const data = await res.json();
       if (!res.ok && !data.message) {

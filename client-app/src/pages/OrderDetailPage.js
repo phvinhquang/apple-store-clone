@@ -2,12 +2,14 @@ import React, { useEffect, useCallback, useState } from "react";
 import OrderDetailInfo from "../components/orders/OrderDetailInfo";
 import OrderDetailProducts from "../components/orders/OrderDetailProducts";
 import { useParams } from "react-router-dom";
+import { getToken } from "../util/token";
 
 const OrderDetailPage = function () {
   const [orderDetail, setOrderDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [httpEror, setHttpError] = useState(null);
   const { orderId } = useParams();
+  const token = getToken();
 
   // Hàm fetch order detail
   const fetchOrderDetail = useCallback(
@@ -17,7 +19,9 @@ const OrderDetailPage = function () {
         const res = await fetch(
           "http://localhost:5000/products/orders/" + orderId,
           {
-            credentials: "include",
+            headers: {
+              Authorization: "Bearer " + token,
+            },
           }
         );
         const data = await res.json();
@@ -45,7 +49,7 @@ const OrderDetailPage = function () {
 
   return (
     <React.Fragment>
-      {isLoading && <p>Đang tải thông tin đơn hàng</p>}
+      {isLoading && <p>Đang tải thông tin đơn hàng ...</p>}
       {!isLoading && <OrderDetailInfo order={orderDetail} />}
       {!isLoading && (
         <OrderDetailProducts products={orderDetail && orderDetail.products} />

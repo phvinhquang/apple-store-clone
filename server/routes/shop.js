@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
+const isAuth = require("../middleware/is-auth");
 
 const shopController = require("../controllers/shop");
 
@@ -8,9 +9,9 @@ router.get("/homepage", shopController.getHomePage);
 
 router.get("/all", shopController.getAllProducts);
 
-router.get("/cart", shopController.getCart);
+router.get("/cart", isAuth, shopController.getCart);
 
-router.post("/add-to-cart", shopController.postAddToCart);
+router.post("/add-to-cart", isAuth, shopController.postAddToCart);
 
 router.post(
   "/add-order",
@@ -39,10 +40,10 @@ router.post(
   shopController.postAddOrder
 );
 
-router.get("/orders", shopController.getOrders);
+router.get("/orders", isAuth, shopController.getOrders);
 
 router.get("/product-detail/:productId", shopController.getProductDetail);
 
-router.get("/orders/:orderId", shopController.getOrderDetail);
+router.get("/orders/:orderId", isAuth, shopController.getOrderDetail);
 
 module.exports = router;

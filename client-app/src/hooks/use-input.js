@@ -29,6 +29,7 @@ const useInput = function (validateValueFn) {
     hasError: hasError,
     valueChangeHandler,
     inputBlurHandler,
+    setEnteredValue,
     reset,
   };
 };

@@ -89,7 +89,7 @@ exports.getProductDetail = async (req, res, next) => {
 
 exports.getCart = async (req, res, next) => {
   try {
-    const user = await User.findById({ _id: req.user._id });
+    const user = await User.findById({ _id: req.userId });
     if (!user) {
       const error = new Error("Unauthorized !");
       err.statusCode = 401;
@@ -111,7 +111,6 @@ exports.getCart = async (req, res, next) => {
 
     res.status(200).json(updatedCart);
   } catch (err) {
-    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -126,7 +125,8 @@ exports.postAddToCart = async (req, res, next) => {
   const updatedCart = { items: items, totalAmount: totalAmount };
 
   try {
-    const user = req.user;
+    const user = await User.findById({ _id: req.userId });
+
     if (!user) {
       const error = new Error("Unauthorized !");
       err.statusCode = 401;
@@ -228,7 +228,6 @@ exports.postAddOrder = async (req, res, next) => {
       html: emailToSend,
     });
   } catch (err) {
-    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -238,7 +237,7 @@ exports.postAddOrder = async (req, res, next) => {
 
 exports.getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({ userId: req.user._id }).sort({
+    const orders = await Order.find({ userId: req.userId }).sort({
       createdAt: -1,
     });
 
@@ -261,7 +260,7 @@ exports.getOrderDetail = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    if (order.userId.toString() !== req.user._id.toString()) {
+    if (order.userId.toString() !== req.userId.toString()) {
       const error = new Error("Forbidden");
       error.statusCode = 403;
       throw error;

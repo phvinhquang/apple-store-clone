@@ -4,10 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/use-input";
 import { useSelector } from "react-redux";
 
-import { userArr } from "../../users/userData";
+// import { userArr } from "../../users/userData";
 
 const SignUpForm = function () {
   const [httpError, setHttpError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const isLoggedin = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   // Xử lý input Fullname
@@ -61,19 +62,8 @@ const SignUpForm = function () {
     }
   }
 
-  //Hàm kiểm tra email
+  // Hàm kiểm tra email
   function checkEmail(value) {
-    for (const user of userArr) {
-      //Báo lỗi nếu trùng email
-      if (user.email === value) {
-        return {
-          status: false,
-          error:
-            "Email đã được sử dụng bởi người dùng khác. Bạn hãy sử dụng email khác",
-        };
-      }
-    }
-
     //Báo lỗi nếu không chứa @
     if (!value.includes("@")) {
       return {
@@ -118,6 +108,8 @@ const SignUpForm = function () {
 
   // Hàm gửi request Sign Up
   const signupRequest = async function (formData) {
+    setIsLoading(true);
+
     try {
       const res = await fetch("http://localhost:5000/signup", {
         method: "POST",
@@ -142,6 +134,8 @@ const SignUpForm = function () {
         // Chuyển sang page login
         navigate("/login");
       }
+
+      setIsLoading(false);
     } catch (err) {
       setHttpError(err.message);
     }
@@ -221,7 +215,9 @@ const SignUpForm = function () {
                   Số điện thoại cần có 10 hoặc 11 số
                 </p>
               )}
-              <button>SIGN UP</button>
+              <button>{`${
+                isLoading ? "CREATING ACCOUNT ..." : "SIGN UP"
+              }`}</button>
             </form>
           )}
           {isLoggedin && (

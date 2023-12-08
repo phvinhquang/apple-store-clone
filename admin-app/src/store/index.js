@@ -7,15 +7,12 @@ const authSlice = createSlice({
   initialState: initialAuthState,
   reducers: {
     logIn(state, action) {
-      //Lưu token xuống session storage ở đây
-      // sessionStorage.setItem("token", action.payload.token);
-      // sessionStorage.setItem("email", action.payload.email);
       return { isAuthenticated: true, email: action.payload.email };
     },
 
     logOut(state) {
-      // sessionStorage.removeItem("token");
-      // sessionStorage.removeItem("email");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("email");
       return { isAuthenticated: false, email: null };
     },
   },

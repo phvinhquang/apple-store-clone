@@ -5,12 +5,14 @@ import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store";
 import { useNavigate } from "react-router-dom";
+import { serverUrl } from "../../utils/auth";
 
 const LoginForm = function () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const url = serverUrl;
 
   //Hàm check input rỗng
   const isEmpty = function (value) {
@@ -50,22 +52,34 @@ const LoginForm = function () {
     setHttpError(false);
 
     try {
-      const req = await fetch(
-        "https://app-store-server-242ec2432e8c.herokuapp.com/admin/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-          credentials: "include",
-        }
-      );
+      const req = await fetch(`${url}admin/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
 
       const data = await req.json();
 
       if (req.status === 200) {
-        dispatch(authActions.logIn({ email: data.user.email }));
+        const token = data.token;
+
+        const remainingMilliseconds = 1000 * 60 * 60 * 24 * 2;
+        const tokenExpiryDate = new Date(
+          new Date().getTime() + remainingMilliseconds
+        );
+
+        //Lưu token xuống session storage ở đây
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("email", data.userData.email);
+        sessionStorage.setItem("tokenExpiryDate", tokenExpiryDate);
+
+        dispatch(
+          authActions.logIn({
+            email: data.userData.email,
+          })
+        );
         navigate("/");
       }
 

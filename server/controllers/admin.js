@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Order = require("../models/order");
 const bcrypt = require("bcryptjs");
 const fs = require("fs");
+const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 
 // Hàm xóa ảnh trên server
@@ -36,17 +37,20 @@ exports.postLogin = async (req, res, next) => {
       error.statusCode = 401;
       throw error;
     } else if (correctPassword) {
-      req.session.isLoggedIn = true;
-      req.session.user = user;
+      const token = jwt.sign(
+        { userId: user._id.toString() },
+        process.env.ACCESS_TOKEN,
+        { expiresIn: "2d" }
+      );
 
       // Đưa 1 số thông tin của user xuống client
       const userData = {
-        email: req.session.user.email,
-        fullname: req.session.user.fullname,
-        phone: req.session.user.phone,
+        email: user.email,
+        fullname: user.fullname,
+        phone: user.phone,
       };
 
-      res.status(200).json({ message: "Đăng nhập thành công", user: userData });
+      res.status(200).json({ token: token, userData: userData });
     }
   } catch (err) {
     if (!err.statusCode) {
@@ -61,12 +65,6 @@ exports.getProducts = async (req, res, next) => {
 
   //Check auth
   try {
-    if (!req.session.isLoggedIn) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     if (query.length === 0) {
       const products = await Product.find().limit(10);
       return res.status(200).json(products);
@@ -89,12 +87,6 @@ exports.getOrders = async (req, res, next) => {
   const perPage = req.query.perPage || 10;
 
   try {
-    if (!req.session.isLoggedIn) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     const ordersCount = await Order.countDocuments();
     const totalPages = Math.ceil(ordersCount / perPage);
 
@@ -127,12 +119,6 @@ exports.getOverall = async (req, res, next) => {
   const today = new Date().toDateString();
 
   try {
-    if (!req.session.isLoggedIn) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     // Tính tổng số người dùng
     const userCounts = await User.countDocuments();
 
@@ -154,6 +140,7 @@ exports.getOverall = async (req, res, next) => {
       new_orders: todayOrders.length,
     });
   } catch (err) {
+    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -165,12 +152,6 @@ exports.getProductDetail = async (req, res, next) => {
   const productId = req.params.productId;
 
   try {
-    if (!req.session.isLoggedIn) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     const product = await Product.findById(productId);
     if (!product) {
       const error = new Error("Could not find product");
@@ -189,12 +170,6 @@ exports.getProductDetail = async (req, res, next) => {
 
 exports.postAddProduct = async (req, res, next) => {
   try {
-    if (!req.session.isLoggedIn || !req.user.role === "admin") {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = new Error("Validation failed");
@@ -204,6 +179,7 @@ exports.postAddProduct = async (req, res, next) => {
     }
 
     if (req.files.length === 0 || req.files.length < 4) {
+      console.log(req.files);
       const error = new Error("Không đủ ảnh");
       error.statusCode = 422;
       throw error;
@@ -221,7 +197,7 @@ exports.postAddProduct = async (req, res, next) => {
     // console.log("image Url", imageUrl[1]);
     // console.log(name, category, price, short_desc, long_desc);
 
-    console.log("stock", stock);
+    // console.log("stock", stock);
 
     const product = new Product({
       name: name,
@@ -261,12 +237,6 @@ exports.postEditProduct = async (req, res, next) => {
   const long_desc = req.body.long_desc;
 
   try {
-    if (!req.session.isLoggedIn || !req.user.role === "admin") {
-      const error = new Error("Unauthorized");
-      error.statusCode = 401;
-      throw error;
-    }
-
     const product = await Product.findById(productId);
     if (!product) {
       const error = new Error("Không tìm thấy sản phẩm");
@@ -292,10 +262,13 @@ exports.postEditProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
   const productId = req.params.productId;
-  console.log(productId);
+  // console.log(productId);
 
   try {
-    if (req.user.role !== "admin") {
+    const user = await User.findOne({ _id: req.userId });
+    console.log(user);
+
+    if (user.role !== "admin") {
       const error = new Error("Not authorized");
       error.statusCode = 403;
       throw error;

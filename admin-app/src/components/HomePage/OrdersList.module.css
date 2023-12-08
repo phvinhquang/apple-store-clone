@@ -28,7 +28,7 @@
 .btn-new:hover {
   background-color: #2b8a3e;
   color: white;
-  cursor: pointer;
+  cursor: not-allowed;
 }
 
 /*Style 1 số cột*/
@@ -60,4 +60,10 @@
   color: blue;
   padding: 5px;
   border-radius: 5px;
+}
+
+/*Loading*/
+.loading {
+  text-align: center;
+  font-size: 20px;
 }

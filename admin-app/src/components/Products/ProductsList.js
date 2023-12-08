@@ -1,7 +1,11 @@
 import classes from "./ProductsList.module.css";
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { serverUrl } from "../../utils/auth";
+import { getToken } from "../../utils/auth";
 import Table from "../../UI/Table";
+
+let firstTime = true;
 
 const ProductsList = function () {
   const [products, setProducts] = useState([]);
@@ -11,6 +15,9 @@ const ProductsList = function () {
   const [isDeleting, setIsDeleting] = useState({ delete: false, id: null });
   const [deleteSuccess, setDeleteSucess] = useState(false);
 
+  const url = serverUrl;
+  const token = getToken();
+
   const searchChangeHandler = function (e) {
     setQuery(e.target.value);
   };
@@ -19,13 +26,13 @@ const ProductsList = function () {
   const fetchProducts = useCallback(
     async function () {
       setIsLoading(true);
+
       try {
-        const res = await fetch(
-          `https://app-store-server-242ec2432e8c.herokuapp.com/admin/products?query=${query}`,
-          {
-            credentials: "include",
-          }
-        );
+        const res = await fetch(`${url}admin/products?query=${query}`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
 
         const data = await res.json();
 
@@ -38,6 +45,10 @@ const ProductsList = function () {
   );
 
   // Thực hiện fetch product
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   useEffect(() => {
     // Fetch data 2s sau khi người dùng ngừng nhập search
     const timer = setTimeout(() => {
@@ -54,13 +65,12 @@ const ProductsList = function () {
     setIsDeleting({ delete: true, id: hotelId });
 
     try {
-      const req = await fetch(
-        `https://app-store-server-242ec2432e8c.herokuapp.com/admin/delete-product/${hotelId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const req = await fetch(`${url}admin/delete-product/${hotelId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
 
       const data = await req.json();
 

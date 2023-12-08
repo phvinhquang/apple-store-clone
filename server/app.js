@@ -1,8 +1,11 @@
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
+const cors = require("cors");
 const User = require("./models/user");
 
 // Thiết lập ban đầu cho multer
@@ -33,6 +36,7 @@ const shopRoutes = require("./routes/shop");
 const adminRoutes = require("./routes/admin");
 
 const app = express();
+app.use(cors());
 
 app.use(bodyParser.json()); // application/json
 app.use(

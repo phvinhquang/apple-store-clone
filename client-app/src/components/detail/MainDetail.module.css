@@ -80,7 +80,10 @@
 }
 
 .add-to-cart {
-  margin-left: 15px;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
 }
 
 /*Nút bấm*/

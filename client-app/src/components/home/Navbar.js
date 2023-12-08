@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
+import { getToken } from "../../util/token";
 
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = getToken();
 
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
@@ -16,7 +18,6 @@ function Navbar() {
   const logoutRequest = async function () {
     const res = await fetch("http://localhost:5000/logout", {
       method: "POST",
-      credentials: "include",
     });
     const data = res.json();
   };
@@ -35,7 +36,9 @@ function Navbar() {
   const getUserProfile = useCallback(
     async function () {
       const res = await fetch("http://localhost:5000/user-profile", {
-        credentials: "include",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       });
       const data = await res.json();
 
@@ -99,7 +102,7 @@ function Navbar() {
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }
-            to="/login"
+            to={`${isLoggedIn ? "#" : "/login"} `}
           >
             <i className="fa-solid fa-user"></i>
             <span className={classes.name}>
