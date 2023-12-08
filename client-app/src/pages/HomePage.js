@@ -22,7 +22,9 @@ function HomePage() {
 export default HomePage;
 
 export const loader = async function () {
-  const res = await fetch("http://localhost:5000/products/homepage");
+  const res = await fetch(
+    "https://apple-store-server-0biu.onrender.com/products/homepage"
+  );
 
   const data = await res.json();
   return data;

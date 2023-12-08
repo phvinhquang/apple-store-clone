@@ -108,11 +108,14 @@ const CheckoutForm = function () {
   // Hàm gửi request auto fill thông tin khách
   const userInfoRequest = async function () {
     try {
-      const request = await fetch("http://localhost:5000/user-profile", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const request = await fetch(
+        "https://apple-store-server-0biu.onrender.com/user-profile",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       const data = await request.json();
       console.log(data);
       if (request.status === 200) {
@@ -128,14 +131,17 @@ const CheckoutForm = function () {
     setIsLoading(true);
 
     try {
-      const request = await fetch("http://localhost:5000/products/add-order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(orderData),
-      });
+      const request = await fetch(
+        "https://apple-store-server-0biu.onrender.com/products/add-order",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
 
       const data = await request.json();
       console.log(data);

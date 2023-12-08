@@ -16,11 +16,14 @@ const OrdersListTable = function () {
   const fetchOrders = useCallback(async function () {
     setIsLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/products/orders", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const res = await fetch(
+        "https://apple-store-server-0biu.onrender.com/products/orders",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       const data = await res.json();
 
       // Check lỗi

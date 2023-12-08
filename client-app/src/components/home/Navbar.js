@@ -16,9 +16,12 @@ function Navbar() {
 
   // Gửi request logout
   const logoutRequest = async function () {
-    const res = await fetch("http://localhost:5000/logout", {
-      method: "POST",
-    });
+    const res = await fetch(
+      "https://apple-store-server-0biu.onrender.com/logout",
+      {
+        method: "POST",
+      }
+    );
     const data = res.json();
   };
 
@@ -35,11 +38,14 @@ function Navbar() {
   // Lấy email của active user bằng API
   const getUserProfile = useCallback(
     async function () {
-      const res = await fetch("http://localhost:5000/user-profile", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const res = await fetch(
+        "https://apple-store-server-0biu.onrender.com/user-profile",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       const data = await res.json();
 
       if (res.status === 200) {

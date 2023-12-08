@@ -7,7 +7,10 @@ import { Link } from "react-router-dom";
 function Banner({ img }) {
   return (
     <div className={classes["banner-container"]}>
-      <img src={`http://localhost:5000/${img}`} alt="banner" />
+      <img
+        src={`https://apple-store-server-0biu.onrender.com/${img}`}
+        alt="banner"
+      />
 
       <div className={classes["banner-info"]}>
         <h3>NEW INSPIRATION 2023</h3>

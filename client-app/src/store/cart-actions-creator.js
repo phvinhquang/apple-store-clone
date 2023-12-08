@@ -4,14 +4,17 @@ import { getToken } from "../util/token";
 export function updateCart(cart) {
   return async function (dispatch) {
     const sendUpdateCartRequest = async function () {
-      const res = await fetch("http://localhost:5000/products/add-to-cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + getToken(),
-        },
-        body: JSON.stringify(cart),
-      });
+      const res = await fetch(
+        "https://apple-store-server-0biu.onrender.com/products/add-to-cart",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getToken(),
+          },
+          body: JSON.stringify(cart),
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Cập nhật giỏ hàng không thành công !");
@@ -32,11 +35,14 @@ export function updateCart(cart) {
 export function fetchCart() {
   return async function (dispatch) {
     const fetchCartData = async function () {
-      const res = await fetch("http://localhost:5000/products/cart", {
-        headers: {
-          Authorization: "Bearer " + getToken(),
-        },
-      });
+      const res = await fetch(
+        "https://apple-store-server-0biu.onrender.com/products/cart",
+        {
+          headers: {
+            Authorization: "Bearer " + getToken(),
+          },
+        }
+      );
       const data = await res.json();
       if (!res.ok && !data.message) {
         throw new Error("Không lấy được dữ liệu giỏ hàng");
