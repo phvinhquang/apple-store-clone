@@ -10,7 +10,7 @@
 //   return email;
 // };
 
-export const serverUrl = "http://localhost:5000/";
+export const serverUrl = "https://apple-store-server-0biu.onrender.com/";
 
 export const getTokenDuration = function () {
   const storedExpiryDate = sessionStorage.getItem("tokenExpiryDate");

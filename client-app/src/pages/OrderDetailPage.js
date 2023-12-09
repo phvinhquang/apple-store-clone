@@ -17,7 +17,8 @@ const OrderDetailPage = function () {
       setIsLoading(true);
       try {
         const res = await fetch(
-          "http://localhost:5000/products/orders/" + orderId,
+          "https://apple-store-server-0biu.onrender.com/products/orders/" +
+            orderId,
           {
             headers: {
               Authorization: "Bearer " + token,
