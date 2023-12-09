@@ -5,6 +5,7 @@ import HomePage from "./pages/Home";
 import ProductsPage from "./pages/Products";
 import NewProductPage from "./pages/NewProduct";
 import EditProductPage from "./pages/EditProduct";
+import ChatPage from "./pages/ChatPage";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: "/edit-product", element: <EditProductPage /> },
     ],
   },
+  { path: "/chat", element: <ChatPage /> },
 ]);
 
 function App() {
