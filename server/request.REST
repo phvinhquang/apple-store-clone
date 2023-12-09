@@ -1,0 +1,16 @@
+POST http://localhost:5000/add-chat-room
+Content-Type: application/json
+
+{
+  "userId": "6530a3444148af031a58bc07"
+}
+//phvinhquang63
+
+###
+POST http://localhost:5000/add-chat-message
+Content-Type: application/json
+
+{
+  "userId":"6530a3444148af031a58bc",
+  "text": "Hello from 9/12"
+}

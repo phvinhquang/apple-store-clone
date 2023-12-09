@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const chatroomSchema = new Schema(
   {
-    members: { type: Array },
+    members: { type: String, required: true },
   },
   { timestamps: true }
 );

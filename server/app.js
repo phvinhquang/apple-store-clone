@@ -34,6 +34,7 @@ const fileFilter = (req, file, callback) => {
 const authRoutes = require("./routes/auth");
 const shopRoutes = require("./routes/shop");
 const adminRoutes = require("./routes/admin");
+const chatRoutes = require("./routes/chat");
 
 const app = express();
 app.use(cors());
@@ -50,6 +51,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(authRoutes);
 app.use("/products", shopRoutes);
 app.use("/admin", adminRoutes);
+app.use(chatRoutes);
 
 // Error handling middleware
 app.use((error, req, res, next) => {
