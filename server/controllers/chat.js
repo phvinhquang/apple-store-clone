@@ -1,5 +1,53 @@
 const Chatroom = require("../models/chatroom.js");
 const ChatMessage = require("../models/chat-message.js");
+const User = require("../models/user.js");
+
+exports.getChatRooms = async (req, res, next) => {
+  try {
+    // Sort theo tin nhắn mới nhất
+    const chatrooms = await Chatroom.find().sort({
+      createdAt: -1,
+    });
+
+    // const chatroomsMap = function () {
+    //   return Promise.all(
+    //     chatrooms.map((chatroom) => {
+    //       const user = User.findById(chatroom.members);
+    //       return { ...chatroom._doc, username: user.fullname };
+    //     })
+    //   );
+    // };
+
+    const updatedChatrooms = await Promise.all(
+      chatrooms.map(async (chatroom) => {
+        const user = await User.findById(chatroom.members);
+        return { ...chatroom._doc, username: user.fullname };
+      })
+    );
+
+    res.status(200).json({ chatrooms: updatedChatrooms });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+exports.getMessages = async (req, res, next) => {
+  const chatroomId = req.params.chatroomId;
+
+  try {
+    const messages = await ChatMessage.find({ chatroomId: chatroomId });
+
+    res.status(200).json({ messages: messages });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
 
 exports.postAddChatRoom = async (req, res, next) => {
   const userId = req.body.userId;
@@ -33,11 +81,18 @@ exports.addChatMessage = async (req, res, next) => {
   // Tìm chatroom mà userId thuộc về (để tránh người dùng fake chatroomId)
 
   // Sau khi apply isAuth sẽ dùng req.userId
+  const chatroomId = req.body.chatroomId;
   const userId = req.body.userId;
   const text = req.body.text;
 
+  let chatroom;
   try {
-    const chatroom = await Chatroom.findOne({ members: userId.toString() });
+    if (req.userRole !== "admin") {
+      chatroom = await Chatroom.findOne({ members: req.userId.toString() });
+    } else {
+      chatroom = await Chatroom.findById(chatroomId);
+    }
+
     if (!chatroom) {
       const error = new Error("Không thể tìm thấy phòng chat của bạn");
       error.statusCode = 404;
@@ -46,7 +101,7 @@ exports.addChatMessage = async (req, res, next) => {
 
     const message = new ChatMessage({
       chatroomId: chatroom._id,
-      sender: userId.toString(),
+      sender: req.userRole === "admin" ? "admin" : userId.toString(),
       text: text,
     });
     message.save();

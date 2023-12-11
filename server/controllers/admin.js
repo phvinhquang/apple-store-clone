@@ -38,7 +38,7 @@ exports.postLogin = async (req, res, next) => {
       throw error;
     } else if (correctPassword) {
       const token = jwt.sign(
-        { userId: user._id.toString() },
+        { userId: user._id.toString(), role: user.role },
         process.env.ACCESS_TOKEN,
         { expiresIn: "2d" }
       );

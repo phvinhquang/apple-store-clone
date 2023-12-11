@@ -1,8 +1,13 @@
 import React from "react";
 import classes from "./ChatPopUp.module.css";
 import admin from "../../images/admin.svg";
+import { useSelector } from "react-redux";
 
 const ChatPopUp = function () {
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+
+  //Fetch tin nhắn theo userId, nếu không có chatroom nào tương ứng thì có nút bắt đầu tin nhắn.
+
   return (
     <div className={classes.card}>
       <div className={classes.container}>
@@ -12,21 +17,30 @@ const ChatPopUp = function () {
         </div>
 
         <div className={classes["chat-frame"]}>
-          <div className={classes["chat-right"]}>
-            <span>Xin chào</span>
-          </div>
-          <div className={classes["chat-right"]}>
-            <span>Làm thế nào để xem các sản phẩm</span>
-          </div>
+          {isLoggedIn && (
+            <div>
+              <div className={classes["chat-right"]}>
+                <span>Xin chào</span>
+              </div>
+              <div className={classes["chat-right"]}>
+                <span>Làm thế nào để xem các sản phẩm</span>
+              </div>
 
-          <div className={classes["chat-left"]}>
-            <img src={admin} />
-            <span>ADMIN: Chào bạn</span>
-          </div>
-          <div className={classes["chat-left"]}>
-            <img src={admin} />
-            <span>ADMIN: Bạn có thể vào mục Shop để xem các sản phẩm.</span>
-          </div>
+              <div className={classes["chat-left"]}>
+                <img src={admin} />
+                <span>ADMIN: Chào bạn</span>
+              </div>
+              <div className={classes["chat-left"]}>
+                <img src={admin} />
+                <span>ADMIN: Bạn có thể vào mục Shop để xem các sản phẩm.</span>
+              </div>
+            </div>
+          )}
+          {!isLoggedIn && (
+            <p className={classes["chat-login-text"]}>
+              Bạn hãy đăng nhập để sử dụng chức năng chat
+            </p>
+          )}
         </div>
 
         <div className={classes["chat-actions"]}>
