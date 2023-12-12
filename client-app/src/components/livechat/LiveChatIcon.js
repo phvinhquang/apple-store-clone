@@ -8,7 +8,6 @@ const LiveChatIcon = function () {
 
   const toggleChatPopUpHandler = function () {
     dispatch(customerChatActions.toggleChatPopUp());
-    console.log("hehe");
   };
 
   return (

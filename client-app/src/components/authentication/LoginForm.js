@@ -68,8 +68,9 @@ const LoginForm = function () {
       const loginRequest = async function () {
         setIsLoading(true);
 
+        // "https://apple-store-server-0biu.onrender.com/login"
         try {
-          const res = await fetch("https://apple-store-server-0biu.onrender.com/login", {
+          const res = await fetch("http://localhost:5000/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -91,6 +92,7 @@ const LoginForm = function () {
 
             localStorage.setItem("token", token);
             localStorage.setItem("tokenExpiryDate", expiryDate.toISOString());
+            localStorage.setItem("userId", data.userData._id);
           }
 
           if (res.status === 401) {

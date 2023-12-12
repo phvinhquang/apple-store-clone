@@ -34,6 +34,24 @@ exports.getChatRooms = async (req, res, next) => {
   }
 };
 
+// Get Chatroom cho client
+exports.getChatroom = async (req, res, next) => {
+  try {
+    const chatroom = await Chatroom.findOne({ members: req.userId });
+    if (!chatroom) {
+      return res.status(404).json({ message: "No chatroom" });
+    }
+
+    const messages = await ChatMessage.find({ chatroomId: chatroom._id });
+    res.status(200).json({ chatroomId: chatroom._id, messages: messages });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
 exports.getMessages = async (req, res, next) => {
   const chatroomId = req.params.chatroomId;
 
@@ -82,7 +100,7 @@ exports.addChatMessage = async (req, res, next) => {
 
   // Sau khi apply isAuth sẽ dùng req.userId
   const chatroomId = req.body.chatroomId;
-  const userId = req.body.userId;
+  const userId = req.userId;
   const text = req.body.text;
 
   let chatroom;

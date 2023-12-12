@@ -75,6 +75,7 @@ exports.postLogin = async (req, res, next) => {
 
       // Đưa 1 số thông tin của user xuống client
       const userData = {
+        _id: user._id.toString(),
         email: user.email,
         fullname: user.fullname,
         phone: user.phone,

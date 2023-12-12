@@ -7,6 +7,8 @@ const isAuthAdmin = require("../middleware/is-auth-admin");
 
 router.get("/chatrooms", chatController.getChatRooms);
 
+router.get("/chatroom", isAuth, chatController.getChatroom);
+
 router.get("/messages/:chatroomId", chatController.getMessages);
 
 router.post("/add-chat-room", chatController.postAddChatRoom);
