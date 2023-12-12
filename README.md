@@ -1,5 +1,5 @@
 
-# E-Commerce App
+# E-Commerce App (Apple Store Clone)
 
 This is an e-commerce web application inspired by the Apple Store. The app is built using React, Node.js, MongoDB, React Redux, and Mongoose.
 
