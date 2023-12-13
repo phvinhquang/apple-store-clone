@@ -3,11 +3,13 @@ import classes from "./ChatPopUp.module.css";
 import admin from "../../images/admin.svg";
 import { useSelector } from "react-redux";
 import { getToken, getUserId } from "../../util/token";
+import openSocket from "socket.io-client";
 
 const ChatPopUp = function () {
   const [messages, setMessages] = useState([]);
   const [chatroomId, setChatroomId] = useState("");
   const [text, setText] = useState("");
+  const [socket, setSocket] = useState(null);
 
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const userId = getUserId();
@@ -24,8 +26,8 @@ const ChatPopUp = function () {
       });
 
       const data = await res.json();
-      // console.log(data);
-      setMessages(data.messages);
+      console.log(data);
+      setMessages(data.messages || []);
       setChatroomId(data.chatroomId);
     } catch (err) {
       console.log(err);
@@ -75,11 +77,29 @@ const ChatPopUp = function () {
 
   useEffect(() => {
     fetchChatroom();
+    const socket = openSocket("http://localhost:5000");
+
+    socket.emit("client-connect", userId);
+    // socket.on("clients-list", (clients) => {
+    //   console.log("online users", clients);
+    // });
   }, []);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView();
   }, [messages]);
+
+  // SocketIO
+  // useEffect(() => {}, []);
+
+  // useEffect(() => {
+  // }, [userId]);
+
+  // useEffect(() => {
+  //   socket?.on("hello", (message) => {
+  //     console.log(message);
+  //   });
+  // }, [socket]);
 
   return (
     <div className={classes.card}>
@@ -92,7 +112,7 @@ const ChatPopUp = function () {
         <div className={classes["chat-frame"]}>
           {isLoggedIn && (
             <div className={classes["messages-container"]}>
-              {messages.map((message) => (
+              {messages?.map((message) => (
                 <div
                   ref={scrollRef}
                   key={message._id}
@@ -104,7 +124,10 @@ const ChatPopUp = function () {
                 >
                   {message.sender === "admin" && <img src={admin} />}
 
-                  <span>{message.text}</span>
+                  <span>
+                    {message.sender === "admin" && "ADMIN: "}
+                    {message.text}
+                  </span>
                 </div>
               ))}
               {/* <div className={classes["chat-right"]}>

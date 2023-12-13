@@ -16,6 +16,7 @@ const authSlice = createSlice({
       state.user = "";
       localStorage.removeItem("token");
       localStorage.removeItem("tokenExpiryDate");
+      localStorage.removeItem("userId");
     },
   },
 });

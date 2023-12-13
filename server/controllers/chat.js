@@ -38,6 +38,8 @@ exports.getChatRooms = async (req, res, next) => {
 exports.getChatroom = async (req, res, next) => {
   try {
     const chatroom = await Chatroom.findOne({ members: req.userId });
+    // console.log("chatroom", chatroom);
+    // console.log(req.userId);
     if (!chatroom) {
       return res.status(404).json({ message: "No chatroom" });
     }
@@ -111,10 +113,18 @@ exports.addChatMessage = async (req, res, next) => {
       chatroom = await Chatroom.findById(chatroomId);
     }
 
+    ////////////////////////////////////////
     if (!chatroom) {
-      const error = new Error("Không thể tìm thấy phòng chat của bạn");
-      error.statusCode = 404;
-      throw error;
+      // const error = new Error("Không thể tìm thấy phòng chat của bạn");
+      // error.statusCode = 404;
+      // throw error;
+
+      chatroom = new Chatroom({
+        // members: req.userId.toString(),
+        members: userId,
+      });
+
+      await chatroom.save();
     }
 
     const message = new ChatMessage({

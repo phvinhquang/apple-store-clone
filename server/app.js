@@ -7,6 +7,7 @@ const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
 const User = require("./models/user");
+const socketIO = require("./socket");
 
 // Thiết lập ban đầu cho multer
 const fileStorage = multer.diskStorage({
@@ -67,6 +68,30 @@ mongoose
     `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@funix-njs301-mongodb.1vi2stm.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`
   )
   .then(() => {
-    app.listen(process.env.PORT || 5000);
+    const server = app.listen(process.env.PORT || 5000);
+
+    // Set up socket.io
+    const io = socketIO.init(server);
+
+    let clients = [];
+
+    const addClient = function (userId, socketId) {
+      if (!clients.some((user) => user.userId === userId)) {
+        clients.push({ userId, socketId });
+      }
+      console.log(clients);
+    };
+
+    // On sự kiện connect của client và admin
+    io.on("connection", (socket) => {
+      socket.on("client-connect", (userId) => {
+        // Xử lý client data và đưa vào array
+        addClient(userId, socket.id);
+        // io.emit("clients-list", clients);
+        // console.log(socketIO.clients);
+      });
+    });
   })
-  .catch();
+  .catch((err) => {
+    console.log(err);
+  });
