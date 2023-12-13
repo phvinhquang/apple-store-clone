@@ -94,6 +94,12 @@ const ChatBox = function (props) {
     scrollToView.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    if (props.newMessage) {
+      setMessages((prev) => [...prev, props.newMessage]);
+    }
+  }, [props.newMessage]);
+
   return (
     <div className={classes.container}>
       <div className={classes["messages-container"]}>

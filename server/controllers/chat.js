@@ -1,6 +1,8 @@
 const Chatroom = require("../models/chatroom.js");
 const ChatMessage = require("../models/chat-message.js");
 const User = require("../models/user.js");
+const io = require("../socket");
+const socketIO = require("../socket.js");
 
 exports.getChatRooms = async (req, res, next) => {
   try {
@@ -113,7 +115,6 @@ exports.addChatMessage = async (req, res, next) => {
       chatroom = await Chatroom.findById(chatroomId);
     }
 
-    ////////////////////////////////////////
     if (!chatroom) {
       // const error = new Error("Không thể tìm thấy phòng chat của bạn");
       // error.statusCode = 404;
@@ -133,6 +134,18 @@ exports.addChatMessage = async (req, res, next) => {
       text: text,
     });
     message.save();
+
+    // Emit tới user (hoặc admin) tin nhắn mới
+    if (message.sender === "admin") {
+      // Tìm user
+      const user = socketIO.clients.find(
+        (user) => user.userId === chatroom.members
+      );
+      const userSocketId = user.socketId;
+      io.getIO().to(userSocketId).emit("new-message", message);
+    } else {
+      io.getIO().to("admin-room").emit("new-message", message);
+    }
 
     res.status(201).json({ message: "Message sent successfully !" });
   } catch (err) {

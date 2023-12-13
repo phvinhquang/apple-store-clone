@@ -1,13 +1,27 @@
 import classes from "./ChatPageContainer.module.css";
 import ChatMenu from "./ChatMenu";
 import ChatBox from "./ChatBox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import openSocket from "socket.io-client";
 
 const ChatPageContainer = function () {
   const [chatRoomId, setChatRoomId] = useState("");
+  const [newMessage, setNewMessage] = useState(null);
+
+  const handleNewMessage = function (data) {
+    setNewMessage(data);
+  };
+
+  useEffect(() => {
+    const socket = openSocket("http://localhost:5000");
+
+    socket.emit("admin-connect", "admin");
+    socket.on("new-message", (data) => {
+      handleNewMessage(data);
+    });
+  }, []);
 
   const chatRoomClickedHandler = function (chatroomId) {
-    // console.log(typeof chatroomId);
     setChatRoomId(chatroomId);
   };
 
@@ -19,7 +33,7 @@ const ChatPageContainer = function () {
       <div className={classes.container}>
         <ChatMenu onChatRoomClicked={chatRoomClickedHandler} />
         <div className={classes.line}></div>
-        <ChatBox chatRoomId={chatRoomId} />
+        <ChatBox chatRoomId={chatRoomId} newMessage={newMessage} />
       </div>
     </div>
   );

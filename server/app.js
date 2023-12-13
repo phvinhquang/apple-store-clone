@@ -73,13 +73,10 @@ mongoose
     // Set up socket.io
     const io = socketIO.init(server);
 
-    let clients = [];
-
     const addClient = function (userId, socketId) {
-      if (!clients.some((user) => user.userId === userId)) {
-        clients.push({ userId, socketId });
+      if (!socketIO.clients.some((user) => user.userId === userId)) {
+        socketIO.clients.push({ userId, socketId });
       }
-      console.log(clients);
     };
 
     // On sự kiện connect của client và admin
@@ -87,8 +84,12 @@ mongoose
       socket.on("client-connect", (userId) => {
         // Xử lý client data và đưa vào array
         addClient(userId, socket.id);
-        // io.emit("clients-list", clients);
-        // console.log(socketIO.clients);
+        io.emit("clients-list", socketIO.clients);
+      });
+
+      socket.on("admin-connect", (data) => {
+        socket.join("admin-room");
+        // io.to("admin-room").emit("hello-admin", "Hello this is ....");
       });
     });
   })

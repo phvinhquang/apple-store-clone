@@ -26,7 +26,7 @@ const ChatPopUp = function () {
       });
 
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       setMessages(data.messages || []);
       setChatroomId(data.chatroomId);
     } catch (err) {
@@ -61,6 +61,11 @@ const ChatPopUp = function () {
     }
   };
 
+  // Hàm update message từ socket
+  const updateMessages = function (data) {
+    setMessages((prev) => [...prev, data]);
+  };
+
   const sendMessageHandler = function () {
     if (text === "") {
       return;
@@ -76,30 +81,27 @@ const ChatPopUp = function () {
   };
 
   useEffect(() => {
-    fetchChatroom();
+    if (isLoggedIn) {
+      fetchChatroom();
+    }
+
     const socket = openSocket("http://localhost:5000");
 
     socket.emit("client-connect", userId);
+    socket.on("new-message", (data) => {
+      console.log("hey");
+      updateMessages(data);
+    });
     // socket.on("clients-list", (clients) => {
     //   console.log("online users", clients);
     // });
+
+    // on new message
   }, []);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView();
   }, [messages]);
-
-  // SocketIO
-  // useEffect(() => {}, []);
-
-  // useEffect(() => {
-  // }, [userId]);
-
-  // useEffect(() => {
-  //   socket?.on("hello", (message) => {
-  //     console.log(message);
-  //   });
-  // }, [socket]);
 
   return (
     <div className={classes.card}>
