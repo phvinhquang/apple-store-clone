@@ -5,7 +5,7 @@ const chatController = require("../controllers/chat");
 const isAuth = require("../middleware/is-auth");
 const isAuthAdmin = require("../middleware/is-auth-admin");
 
-router.get("/chatrooms", chatController.getChatRooms);
+router.get("/chatrooms", isAuth, chatController.getChatRooms);
 
 router.get("/chatroom", isAuth, chatController.getChatroom);
 
