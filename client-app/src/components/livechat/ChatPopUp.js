@@ -9,7 +9,6 @@ const ChatPopUp = function () {
   const [messages, setMessages] = useState([]);
   const [chatroomId, setChatroomId] = useState("");
   const [text, setText] = useState("");
-  const [socket, setSocket] = useState(null);
 
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const userId = getUserId();
@@ -19,11 +18,14 @@ const ChatPopUp = function () {
   //Fetch chatroom
   const fetchChatroom = async function () {
     try {
-      const res = await fetch("http://localhost:5000/chatroom", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const res = await fetch(
+        "https://apple-store-server-0biu.onrender.com/chatroom",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
 
       const data = await res.json();
       // console.log(data);
@@ -42,14 +44,17 @@ const ChatPopUp = function () {
   // Hàm gửi tin nhắn
   const postMessage = async function (formData) {
     try {
-      const res = await fetch("http://localhost:5000/add-chat-message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        "https://apple-store-server-0biu.onrender.com/add-chat-message",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await res.json();
       if (res.status === 201) {
@@ -85,18 +90,15 @@ const ChatPopUp = function () {
       fetchChatroom();
     }
 
-    const socket = openSocket("http://localhost:5000");
+    const socket = openSocket("https://apple-store-server-0biu.onrender.com/");
 
     socket.emit("client-connect", userId);
     socket.on("new-message", (data) => {
-      console.log("hey");
       updateMessages(data);
     });
     // socket.on("clients-list", (clients) => {
     //   console.log("online users", clients);
     // });
-
-    // on new message
   }, []);
 
   useEffect(() => {

@@ -3,17 +3,20 @@ import ChatMenu from "./ChatMenu";
 import ChatBox from "./ChatBox";
 import { useState, useEffect } from "react";
 import openSocket from "socket.io-client";
+import { serverUrl } from "../../utils/auth";
 
 const ChatPageContainer = function () {
   const [chatRoomId, setChatRoomId] = useState("");
   const [newMessage, setNewMessage] = useState(null);
+
+  const url = serverUrl;
 
   const handleNewMessage = function (data) {
     setNewMessage(data);
   };
 
   useEffect(() => {
-    const socket = openSocket("http://localhost:5000");
+    const socket = openSocket(`${url}`);
 
     socket.emit("admin-connect", "admin");
     socket.on("new-message", (data) => {
