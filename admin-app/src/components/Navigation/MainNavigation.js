@@ -41,6 +41,11 @@ const MainNavigation = function () {
       </NavLink>
 
       <h3>LISTS</h3>
+      <NavLink to="/chat">
+        <i className="fa-regular fa-user"></i>
+        <span>Chat</span>
+      </NavLink>
+
       <NavLink to="/products">
         <i className="fa-solid fa-mobile"></i> <span>Products</span>
       </NavLink>

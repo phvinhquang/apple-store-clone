@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
 import { getToken } from "../../util/token";
+import { customerChatActions } from "../../store/customerchat";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function Navbar() {
     if (confirm) {
       logoutRequest();
       dispatch(authActions.logOut());
+      dispatch(customerChatActions.closeChatPopUp());
       navigate("/");
     }
   };

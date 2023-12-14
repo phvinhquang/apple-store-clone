@@ -13,6 +13,7 @@ const authSlice = createSlice({
     logOut(state) {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("email");
+      sessionStorage.removeItem("tokenExpiryDate");
       return { isAuthenticated: false, email: null };
     },
   },

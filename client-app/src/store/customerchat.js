@@ -9,6 +9,9 @@ const customerChatSlice = createSlice({
     toggleChatPopUp(state) {
       state.isShown = !state.isShown;
     },
+    closeChatPopUp(state) {
+      state.isShown = false;
+    },
   },
 });
 

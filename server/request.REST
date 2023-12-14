@@ -1,0 +1,17 @@
+//Thêm Chatroom mới
+POST http://localhost:5000/add-chat-room
+Content-Type: application/json
+
+{
+  "userId": "6530d9a13a2da0dfc29d0076"
+}
+//phvinhquang63
+
+###
+POST http://localhost:5000/add-chat-message
+Content-Type: application/json
+
+{
+  "userId":"6530a3444148af031a58bc",
+  "text": "Hello from 9/12"
+}

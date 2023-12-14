@@ -68,13 +68,14 @@ exports.postLogin = async (req, res, next) => {
     } else if (correctPassword) {
       // TẠO TOKEN
       const token = jwt.sign(
-        { userId: user._id.toString() },
+        { userId: user._id.toString(), role: user.role },
         process.env.ACCESS_TOKEN,
         { expiresIn: "2d" }
       );
 
       // Đưa 1 số thông tin của user xuống client
       const userData = {
+        _id: user._id.toString(),
         email: user.email,
         fullname: user.fullname,
         phone: user.phone,
