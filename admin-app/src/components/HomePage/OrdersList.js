@@ -7,6 +7,7 @@ import { getToken } from "../../utils/auth";
 
 import Card from "../../UI/Card";
 import Table from "../../UI/Table";
+import LoadingIndicator from "../../UI/LoadingIndicator";
 
 const OrdersList = function ({ title }) {
   const [orders, setOrders] = useState([]);
@@ -72,7 +73,7 @@ const OrdersList = function ({ title }) {
     <Card className={classes["transactions-card"]}>
       <div className={classes.container}>
         <h2>{title}</h2>
-        {isLoading && <p className={classes.loading}>Loading orders ...</p>}
+        {isLoading && <LoadingIndicator />}
         {!isLoading && (
           <Table
             // className={classes.table}

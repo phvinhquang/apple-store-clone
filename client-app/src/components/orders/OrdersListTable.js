@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import classes from "./OrdersListTable.module.css";
+import LoadingIndicator from "../../UI/LoadingIndicator";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getToken } from "../../util/token";
@@ -46,7 +47,8 @@ const OrdersListTable = function () {
 
   return (
     <React.Fragment>
-      {isLoading && <p>Đang tải order của bạn</p>}
+      {/* {isLoading && <p>Đang tải order của bạn</p>} */}
+      {isLoading && <LoadingIndicator />}
       {isLoggedIn && httpEror && <p>{httpEror}</p>}
       {!isLoggedIn && <p>Hãy đăng nhập để xem đơn hàng của bạn</p>}
 

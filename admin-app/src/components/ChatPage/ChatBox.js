@@ -62,6 +62,28 @@ const ChatBox = function (props) {
   };
 
   // Hàm xử lý sự kiện gửi tin nhắn
+  const keyHandler = function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+
+      // Gửi tin nhắn khi nhấn Enter
+      const data = {
+        chatroomId: props.chatRoomId,
+        sender: "admin",
+        text: text,
+      };
+      sendMessage(data);
+    }
+
+    // Xuống dòng với Shift + Enter
+    if (e.key === "Enter" && e.shiftKey) {
+      e.preventDefault();
+      setText((prev) => prev + "\r\n");
+      // console.log(text);
+      // console.log("Xuống dòng");
+    }
+  };
+
   const sendMessageHandler = function () {
     if (text === "") {
       return;
@@ -113,7 +135,7 @@ const ChatBox = function (props) {
             }`}
           >
             <img src={userImg} alt="user-avatar" />
-            <p>{message.text}</p>
+            <p style={{ whiteSpace: "pre-line" }}>{message.text}</p>
           </div>
         ))}
 
@@ -134,6 +156,7 @@ const ChatBox = function (props) {
             onChange={textChangeHandler}
             value={text}
             placeholder="Enter your message"
+            onKeyDown={keyHandler}
           ></textarea>
           <button type="button" onClick={sendMessageHandler}>
             <i className="fa-brands fa-telegram"></i>

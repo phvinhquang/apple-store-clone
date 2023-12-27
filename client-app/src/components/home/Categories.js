@@ -14,16 +14,20 @@ function Catergories({ imgs }) {
           <div className={classes["cat-item"]}>
             <Link to="/shop">
               <img
-                src={`https://apple-store-server-0biu.onrender.com/${imgs[0]}`}
-                alt="categories image"
+                src={`https://apple-store-server-0biu.onrender.com/${
+                  imgs[0] || ""
+                }`}
+                alt="categories"
               />
             </Link>
           </div>
           <div className={classes["cat-item"]}>
             <Link to="/shop">
               <img
-                src={`https://apple-store-server-0biu.onrender.com/${imgs[1]}`}
-                alt="categories image"
+                src={`https://apple-store-server-0biu.onrender.com/${
+                  imgs[1] || ""
+                }`}
+                alt="categories"
               />
             </Link>
           </div>
@@ -33,7 +37,7 @@ function Catergories({ imgs }) {
             <Link to="/shop">
               <img
                 src={`https://apple-store-server-0biu.onrender.com/${imgs[2]}`}
-                alt="categories image"
+                alt="categories"
               />
             </Link>
           </div>
@@ -41,7 +45,7 @@ function Catergories({ imgs }) {
             <Link to="/shop">
               <img
                 src={`https://apple-store-server-0biu.onrender.com/${imgs[3]}`}
-                alt="categories image"
+                alt="categories"
               />
             </Link>
           </div>
@@ -49,7 +53,7 @@ function Catergories({ imgs }) {
             <Link to="/shop">
               <img
                 src={`https://apple-store-server-0biu.onrender.com/${imgs[4]}`}
-                alt="categories image"
+                alt="categories"
               />
             </Link>
           </div>
