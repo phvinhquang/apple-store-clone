@@ -71,6 +71,31 @@ const ChatPopUp = function () {
     setMessages((prev) => [...prev, data]);
   };
 
+  // Xử lý sự kiện gửi tin nhắn
+  const keyHandler = function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+
+      if (text === "") {
+        return;
+      }
+
+      // Gửi tin nhắn khi nhấn Enter
+      const formData = {
+        chatroomId: chatroomId,
+        sender: userId,
+        text: text,
+      };
+      postMessage(formData);
+    }
+
+    // Xuống dòng với Shift + Enter
+    if (e.key === "Enter" && e.shiftKey) {
+      e.preventDefault();
+      setText((prev) => prev + "\r\n");
+    }
+  };
+
   const sendMessageHandler = function () {
     if (text === "") {
       return;
@@ -166,6 +191,7 @@ const ChatPopUp = function () {
               value={text}
               type="text"
               placeholder="Enter Message!"
+              onKeyDown={keyHandler}
             />
           </div>
 

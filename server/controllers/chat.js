@@ -141,7 +141,11 @@ exports.addChatMessage = async (req, res, next) => {
       const user = socketIO.clients.find(
         (user) => user.userId === chatroom.members
       );
+      if (!user) {
+        return res.status(201).json({ message: "Message sent successfully !" });
+      }
       const userSocketId = user.socketId;
+
       io.getIO().to(userSocketId).emit("new-message", message);
     } else {
       io.getIO().to("admin-room").emit("new-message", message);
@@ -149,6 +153,7 @@ exports.addChatMessage = async (req, res, next) => {
 
     res.status(201).json({ message: "Message sent successfully !" });
   } catch (err) {
+    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }

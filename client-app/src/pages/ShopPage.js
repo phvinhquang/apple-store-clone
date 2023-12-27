@@ -1,26 +1,41 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ShopBanner from "../components/shop/ShopBanner";
 import ShopMain from "../components/shop/ShopMain";
+import LoadingIndicator from "../UI/LoadingIndicator";
 
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, defer, Await } from "react-router-dom";
 
 function ShopPage() {
-  const products = useLoaderData();
+  const { shop } = useLoaderData();
+
   return (
     <React.Fragment>
       <ShopBanner />
-      <ShopMain products={products} />
+
+      <Suspense fallback={<LoadingIndicator />}>
+        <Await resolve={shop}>
+          {(products) => {
+            return <ShopMain products={products} />;
+          }}
+        </Await>
+      </Suspense>
     </React.Fragment>
   );
 }
 
 export default ShopPage;
 
-export const loader = async function () {
+async function loadShop() {
   const res = await fetch(
     "https://apple-store-server-0biu.onrender.com/products/all"
   );
 
   const data = await res.json();
   return data;
+}
+
+export const loader = function () {
+  return defer({
+    shop: loadShop(),
+  });
 };

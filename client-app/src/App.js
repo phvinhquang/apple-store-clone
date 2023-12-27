@@ -1,16 +1,22 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
 import RootLayout from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
-import HomePage, { loader as homeProductLoader } from "./pages/HomePage";
-import ShopPage, { loader as shopProductsLoader } from "./pages/ShopPage";
+import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
-import DetailPage, { loader as productDetailLoader } from "./pages/DetailPage";
 import CartPage from "./pages/CartPage";
 import CheckOutPage from "./pages/CheckOutPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
+import LoadingIndicator from "./UI/LoadingIndicator";
+// import ShopPage, { loader as shopProductsLoader } from "./pages/ShopPage";
+// import DetailPage, { loader as productDetailLoader } from "./pages/DetailPage";
+
+//Lazy Loading
+const ShopPage = lazy(() => import("./pages/ShopPage"));
+const DetailPage = lazy(() => import("./pages/DetailPage"));
 
 const router = createBrowserRouter([
   {
@@ -18,16 +24,26 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <HomePage />, loader: homeProductLoader },
+      { index: true, element: <HomePage /> },
       {
         path: "shop",
-        element: <ShopPage />,
-        loader: shopProductsLoader,
+        element: (
+          <Suspense fallback={<LoadingIndicator />}>
+            <ShopPage />
+          </Suspense>
+        ),
+        loader: () =>
+          import("./pages/ShopPage").then((module) => module.loader()),
       },
       {
         path: "detail/:productId",
-        element: <DetailPage />,
-        loader: productDetailLoader,
+        element: (
+          <Suspense fallback={<LoadingIndicator />}>
+            <DetailPage />
+          </Suspense>
+        ),
+        loader: (meta) =>
+          import("./pages/DetailPage").then((module) => module.loader(meta)),
       },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },

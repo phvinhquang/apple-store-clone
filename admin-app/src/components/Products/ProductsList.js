@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { serverUrl } from "../../utils/auth";
 import { getToken } from "../../utils/auth";
 import Table from "../../UI/Table";
+import LoadingIndicator from "../../UI/LoadingIndicator";
 
 let firstTime = true;
 
@@ -139,7 +140,7 @@ const ProductsList = function () {
       </div>
 
       <div className={classes["hotels-list-container"]}>
-        {isLoading && <p className={classes.loading}>Loading Products ...</p>}
+        {isLoading && <LoadingIndicator />}
         {!isLoading && (
           <Table
             resultsPerPage={products.length}

@@ -186,7 +186,9 @@ exports.postAddProduct = async (req, res, next) => {
     }
 
     const imageUrl = req.files.map(
-      (file) => "http://localhost:5000/" + file.path.replace("\\", "/")
+      (file) =>
+        "https://apple-store-server-0biu.onrender.com/" +
+        file.path.replace("\\", "/")
     );
     const name = req.body.name;
     const category = req.body.category;
