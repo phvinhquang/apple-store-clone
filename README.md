@@ -20,7 +20,7 @@ This is an e-commerce web application inspired by the Apple Store. The app is bu
 
 **Client:** React, Redux, React-router
 
-**Client:** React, Redux, React-router
+**Admin:** React, Redux, React-router
 
 **Server:** Node, Express, MongoDB, Mongoose
 
@@ -51,6 +51,7 @@ To get started with the project, follow these steps:
   $ npm start
 ```
 6. Access the application in your web browser:
+   
 server at:
 ```bash
   http://localhost:5000
@@ -59,7 +60,7 @@ client at:
 ```bash
   http://localhost:3000
 ```
-server at:
+admin at:
 ```bash
   http://localhost:3001
 ```
