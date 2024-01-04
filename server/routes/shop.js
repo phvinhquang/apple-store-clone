@@ -37,6 +37,7 @@ router.post(
       .isEmpty()
       .withMessage("Bạn không được để trống địa chỉ"),
   ],
+  isAuth,
   shopController.postAddOrder
 );
 
