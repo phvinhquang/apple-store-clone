@@ -130,18 +130,19 @@ const CheckoutForm = function () {
   const addOrderRequest = async function (orderData) {
     setIsLoading(true);
 
+    // const url = "http://localhost:5000/products/add-order";
+    const url =
+      "https://apple-store-server-0biu.onrender.com/products/add-order";
+
     try {
-      const request = await fetch(
-        "https://apple-store-server-0biu.onrender.com/products/add-order",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify(orderData),
-        }
-      );
+      const request = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify(orderData),
+      });
 
       const data = await request.json();
       console.log(data);

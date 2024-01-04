@@ -170,7 +170,7 @@ exports.postAddOrder = async (req, res, next) => {
 
     // Tạo order trong database
     const order = new Order({
-      userId: req.user._id,
+      userId: req.userId,
       orderer: {
         fullname: customerFullname,
         email: customerEmail,
@@ -228,6 +228,7 @@ exports.postAddOrder = async (req, res, next) => {
       html: emailToSend,
     });
   } catch (err) {
+    console.log(err);
     if (!err.statusCode) {
       err.statusCode = 500;
     }
